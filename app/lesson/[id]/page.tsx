@@ -32,18 +32,20 @@ export default async function LessonPage({
     <div className="flex min-h-screen">
       <LessonNavigator />
       <main className="flex-1 flex flex-col min-w-0">
-        <div className="flex-1 max-w-4xl mx-auto w-full p-6 md:p-10">
-          <div className="mb-2 text-sm text-zinc-500 dark:text-zinc-400">
+        <div className="flex-1 max-w-4xl mx-auto w-full p-6 md:p-10 animate-fade-in">
+          <div className="mb-2 text-sm text-zinc-500 dark:text-zinc-400 animate-slide-up">
             {lesson.module}
           </div>
-          <h1 className="text-3xl font-bold mb-6">{lesson.title}</h1>
+          <h1 className="text-3xl font-bold mb-6 animate-slide-up">
+            {lesson.title}
+          </h1>
 
-          <div className="prose dark:prose-invert max-w-none mb-10">
+          <div className="prose dark:prose-invert max-w-none mb-10 animate-slide-up">
             <ReactMarkdown>{lesson.content}</ReactMarkdown>
           </div>
 
           {lesson.hasChat && (
-            <div className="mb-8">
+            <div className="mb-8 animate-slide-up">
               <div className="flex items-center gap-2 mb-3">
                 <MessageCircle className="w-5 h-5 text-blue-600" />
                 <h2 className="text-lg font-semibold">AI 助教</h2>
@@ -58,7 +60,7 @@ export default async function LessonPage({
           )}
 
           {lesson.hasPlayground && (
-            <div className="mb-8">
+            <div className="mb-8 animate-slide-up">
               <div className="flex items-center gap-2 mb-3">
                 <Wand2 className="w-5 h-5 text-purple-600" />
                 <h2 className="text-lg font-semibold">Prompt Playground</h2>
@@ -72,11 +74,11 @@ export default async function LessonPage({
             </div>
           )}
 
-          <div className="flex items-center justify-between pt-8 border-t">
+          <div className="flex items-center justify-between pt-8 border-t animate-fade-in">
             {prevId ? (
               <Link
                 href={`/lesson/${prevId}`}
-                className="flex items-center gap-1 text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+                className="flex items-center gap-1 text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 transition-colors"
               >
                 <ChevronLeft className="w-4 h-4" />
                 上一课
@@ -87,7 +89,7 @@ export default async function LessonPage({
             {nextId ? (
               <Link
                 href={`/lesson/${nextId}`}
-                className="flex items-center gap-1 text-sm font-medium text-blue-600 hover:text-blue-800"
+                className="flex items-center gap-1 text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors"
               >
                 下一课
                 <ChevronRight className="w-4 h-4" />
@@ -95,7 +97,7 @@ export default async function LessonPage({
             ) : (
               <Link
                 href="/"
-                className="flex items-center gap-1 text-sm font-medium text-blue-600 hover:text-blue-800"
+                className="flex items-center gap-1 text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors"
               >
                 回到首页
                 <ChevronRight className="w-4 h-4" />

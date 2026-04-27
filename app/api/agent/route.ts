@@ -1,4 +1,6 @@
-import Anthropic from "@anthropic-ai/sdk";
+import { streamText, createTextStreamResponse } from "ai";
+import { createAnthropic } from "@ai-sdk/anthropic";
+import { createOpenAI } from "@ai-sdk/openai";
 import { NextRequest } from "next/server";
 
 const SYSTEM_PROMPT = `你是一位超级有耐心、鼓励人心的编程启蒙老师。你的学生是完全零基础、第一次接触编程的人。
@@ -21,10 +23,58 @@ const SYSTEM_PROMPT = `你是一位超级有耐心、鼓励人心的编程启蒙
 
 export async function POST(req: NextRequest) {
   try {
-    const apiKey = process.env.ANTHROPIC_API_KEY;
-    if (!apiKey) {
+    const provider = process.env.AI_PROVIDER || "anthropic";
+    const model = process.env.AI_MODEL;
+
+    if (!model) {
       return new Response(
-        JSON.stringify({ error: "ANTHROPIC_API_KEY 未配置" }),
+        JSON.stringify({ error: "AI_MODEL 未配置" }),
+        { status: 500, headers: { "Content-Type": "application/json" } }
+      );
+    }
+
+    let languageModel;
+
+    if (provider === "anthropic") {
+      const apiKey = process.env.AI_API_KEY || process.env.ANTHROPIC_API_KEY;
+      if (!apiKey) {
+        return new Response(
+          JSON.stringify({ error: "ANTHROPIC_API_KEY 或 AI_API_KEY 未配置" }),
+          { status: 500, headers: { "Content-Type": "application/json" } }
+        );
+      }
+      const anthropic = createAnthropic({ apiKey });
+      languageModel = anthropic(model);
+    } else if (provider === "openai") {
+      const apiKey = process.env.AI_API_KEY || process.env.OPENAI_API_KEY;
+      if (!apiKey) {
+        return new Response(
+          JSON.stringify({ error: "OPENAI_API_KEY 或 AI_API_KEY 未配置" }),
+          { status: 500, headers: { "Content-Type": "application/json" } }
+        );
+      }
+      const openai = createOpenAI({ apiKey });
+      languageModel = openai(model);
+    } else if (provider === "openai-compatible") {
+      const apiKey = process.env.AI_API_KEY;
+      const baseURL = process.env.AI_BASE_URL;
+      if (!apiKey) {
+        return new Response(
+          JSON.stringify({ error: "AI_API_KEY 未配置" }),
+          { status: 500, headers: { "Content-Type": "application/json" } }
+        );
+      }
+      if (!baseURL) {
+        return new Response(
+          JSON.stringify({ error: "AI_BASE_URL 未配置" }),
+          { status: 500, headers: { "Content-Type": "application/json" } }
+        );
+      }
+      const openai = createOpenAI({ apiKey, baseURL });
+      languageModel = openai(model);
+    } else {
+      return new Response(
+        JSON.stringify({ error: `不支持的 AI_PROVIDER: ${provider}` }),
         { status: 500, headers: { "Content-Type": "application/json" } }
       );
     }
@@ -33,40 +83,19 @@ export async function POST(req: NextRequest) {
       messages: { role: "user" | "assistant"; content: string }[];
     };
 
-    const anthropic = new Anthropic({ apiKey });
-
-    const stream = anthropic.messages.stream({
-      model: "claude-sonnet-4-20250514",
-      max_tokens: 4096,
+    const result = streamText({
+      model: languageModel,
       system: SYSTEM_PROMPT,
       messages: messages.map((m) => ({
         role: m.role,
         content: m.content,
       })),
+      maxOutputTokens: 4096,
     });
 
-    const encoder = new TextEncoder();
-    const readableStream = new ReadableStream({
-      async start(controller) {
-        try {
-          for await (const event of stream) {
-            if (
-              event.type === "content_block_delta" &&
-              event.delta.type === "text_delta"
-            ) {
-              controller.enqueue(encoder.encode(event.delta.text));
-            }
-          }
-          controller.close();
-        } catch (err) {
-          controller.error(err);
-        }
-      },
-    });
-
-    return new Response(readableStream, {
+    return createTextStreamResponse({
+      textStream: result.textStream,
       headers: {
-        "Content-Type": "text/plain; charset=utf-8",
         "Cache-Control": "no-cache",
       },
     });
