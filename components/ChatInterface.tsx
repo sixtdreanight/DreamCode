@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Send, Bot, User, AlertCircle } from "lucide-react";
+import { Send, Bot, User } from "lucide-react";
 
 interface Message {
   role: "user" | "assistant";
@@ -11,9 +11,9 @@ interface Message {
 function TypingDots() {
   return (
     <span className="inline-flex items-center gap-0.5">
-      <span className="w-1.5 h-1.5 bg-zinc-400 rounded-full animate-bounce [animation-delay:0ms]" />
-      <span className="w-1.5 h-1.5 bg-zinc-400 rounded-full animate-bounce [animation-delay:150ms]" />
-      <span className="w-1.5 h-1.5 bg-zinc-400 rounded-full animate-bounce [animation-delay:300ms]" />
+      <span className="w-1.5 h-1.5 bg-muted rounded-full animate-bounce [animation-delay:0ms]" />
+      <span className="w-1.5 h-1.5 bg-muted rounded-full animate-bounce [animation-delay:150ms]" />
+      <span className="w-1.5 h-1.5 bg-muted rounded-full animate-bounce [animation-delay:300ms]" />
     </span>
   );
 }
@@ -84,7 +84,7 @@ export default function ChatInterface() {
         ...prev,
         {
           role: "assistant",
-          content: `抱歉，出错了：${msg}\n\n💡 提示：请检查 .env 文件中的 API Key 是否配置正确。`,
+          content: `抱歉，出错了：${msg}\n\n提示：请检查 .env 文件中的 API Key 是否配置正确。`,
         },
       ]);
     } finally {
@@ -93,9 +93,9 @@ export default function ChatInterface() {
   }
 
   return (
-    <div className="flex flex-col h-full border rounded-xl bg-white dark:bg-zinc-900 shadow-sm overflow-hidden animate-fade-in">
-      <div className="px-4 py-3 border-b bg-zinc-50 dark:bg-zinc-800 flex items-center gap-2 shrink-0">
-        <Bot className="w-5 h-5 text-accent" />
+    <div className="flex flex-col h-full border border-edge rounded-lg bg-surface overflow-hidden animate-fade-in">
+      <div className="px-4 py-3 border-b border-edge bg-surface-alt flex items-center gap-2 shrink-0">
+        <Bot className="w-4 h-4 text-accent" />
         <span className="font-semibold text-sm">AI 学习助手</span>
       </div>
 
@@ -112,7 +112,7 @@ export default function ChatInterface() {
               className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${
                 msg.role === "user"
                   ? "bg-accent/10 text-accent"
-                  : "bg-green-100 text-green-700"
+                  : "bg-surface-alt"
               }`}
             >
               {msg.role === "user" ? (
@@ -122,10 +122,10 @@ export default function ChatInterface() {
               )}
             </div>
             <div
-              className={`max-w-[80%] rounded-2xl px-4 py-2.5 text-sm leading-relaxed whitespace-pre-wrap ${
+              className={`max-w-[80%] rounded-lg px-4 py-2.5 text-sm leading-relaxed whitespace-pre-wrap ${
                 msg.role === "user"
-                  ? "bg-accent text-white"
-                  : "bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200"
+                  ? "bg-accent/10"
+                  : "bg-surface-alt"
               }`}
             >
               {msg.content ||
@@ -138,22 +138,22 @@ export default function ChatInterface() {
 
       <form
         onSubmit={handleSubmit}
-        className="p-3 border-t bg-zinc-50 dark:bg-zinc-800 flex gap-2 shrink-0"
+        className="p-3 border-t border-edge bg-surface-alt flex gap-2 shrink-0"
       >
         <input
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="输入你的问题..."
-          className="flex-1 px-4 py-2.5 rounded-lg border bg-white dark:bg-zinc-900 text-sm focus:outline-none focus:ring-2 focus:ring-accent/50 transition-shadow"
+          className="flex-1 px-4 py-2.5 rounded-lg border border-edge bg-surface text-sm focus:outline-none focus:ring-2 focus:ring-accent/50 transition-shadow"
         />
         <button
           type="submit"
           disabled={loading || !input.trim()}
-          className="px-4 py-2.5 bg-accent text-white rounded-lg text-sm font-medium hover:opacity-90 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100 flex items-center gap-1.5 transition-all"
+          className="px-4 py-2.5 bg-accent/10 text-accent rounded-lg text-sm font-medium hover:bg-accent/20 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100 flex items-center gap-1.5 transition-all"
         >
           {loading ? (
             <span className="flex items-center gap-1.5">
-              <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+              <span className="w-4 h-4 border-2 border-accent/30 border-t-accent rounded-full animate-spin" />
               回复中
             </span>
           ) : (

@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Vibe Coding 入门课",
+  title: "梦夜的编程课",
   description: "零基础学会用 AI 编程，让创意变成现实",
 };
 
@@ -27,10 +27,10 @@ export default function RootLayout({
       lang="zh-CN"
       className={`${geistSans.variable} ${geistMono.variable} antialiased`}
     >
-      <body className="min-h-screen bg-background text-foreground">
+      <body className="min-h-screen bg-surface">
         <a
           href="https://dreamnight.net.cn"
-          className="fixed top-3 left-3 z-50 text-xs text-secondary hover:text-accent transition-colors flex items-center gap-1 bg-white/80 dark:bg-zinc-800/80 backdrop-blur px-3 py-1.5 rounded-full border border-primary shadow-sm"
+          className="fixed top-3 left-3 z-50 text-xs text-muted hover:text-accent transition-colors inline-flex items-center gap-1 bg-surface/80 backdrop-blur px-3 py-1.5 rounded-full border border-edge"
         >
           &larr; 返回博客
         </a>

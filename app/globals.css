@@ -1,27 +1,32 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #373a3c;
-  --accent: #F55555;
-  --accent-hover: #e04848;
+  --color-bg-primary: #ffffff;
+  --color-bg-secondary: #f4f4f5;
+  --color-text-primary: #373a3c;
+  --color-text-secondary: #71717a;
+  --color-border-primary: #e4e4e7;
+  --color-accent: #F55555;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #1c1c1e;
-    --foreground: #ffffff;
-    --accent: #FCCF31;
-    --accent-hover: #e6bc1a;
+    --color-bg-primary: #1c1c1e;
+    --color-bg-secondary: #27272a;
+    --color-text-primary: #ffffff;
+    --color-text-secondary: #d1d5db;
+    --color-border-primary: #3f3f46;
+    --color-accent: #FCCF31;
   }
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-accent: var(--accent);
-  --color-accent-hover: var(--accent-hover);
-  --font-sans: "Noto Sans SC", "Source Han Sans SC", "Geist", ui-sans-serif, system-ui, sans-serif;
+  --color-surface: var(--color-bg-primary);
+  --color-surface-alt: var(--color-bg-secondary);
+  --color-muted: var(--color-text-secondary);
+  --color-edge: var(--color-border-primary);
+  --color-accent: var(--color-accent);
+  --font-sans: "Noto Sans SC", "Source Han Sans SC", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", "Fira Code", Consolas, monospace;
 
   --animate-fade-in: fade-in 0.5s ease-out;
@@ -51,8 +56,8 @@
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--color-bg-primary);
+  color: var(--color-text-primary);
 }
 
 ::-webkit-scrollbar {

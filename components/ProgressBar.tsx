@@ -6,17 +6,17 @@ interface Props {
 
 export default function ProgressBar({ completed, total, label }: Props) {
   const pct = total > 0 ? Math.round((completed / total) * 100) : 0
-  const color = pct === 0 ? 'bg-zinc-200 dark:bg-zinc-700' : pct === 100 ? 'bg-green-500' : 'bg-accent'
+  const color = pct === 0 ? "bg-muted" : pct === 100 ? "bg-green-500" : "bg-accent"
 
   return (
     <div className="space-y-1">
-      {(label || true) && (
-        <div className="flex items-center justify-between text-xs text-zinc-500">
-          <span>{label || '进度'}</span>
+      {label && (
+        <div className="flex items-center justify-between text-xs text-muted">
+          <span>{label}</span>
           <span>{completed}/{total} ({pct}%)</span>
         </div>
       )}
-      <div className="h-1.5 rounded-full bg-zinc-200 dark:bg-zinc-700 overflow-hidden">
+      <div className="h-1.5 rounded-full bg-surface-alt overflow-hidden">
         <div
           className={`h-full rounded-full transition-all duration-500 ${color}`}
           style={{ width: `${pct}%` }}

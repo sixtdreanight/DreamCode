@@ -36,14 +36,14 @@ export default async function LessonPage({
     <div className="flex min-h-screen">
       <LessonNavigator />
       <main className="flex-1 flex flex-col min-w-0">
-        <div className="flex-1 max-w-4xl mx-auto w-full p-6 md:p-10 animate-fade-in">
-          <div className="mb-2 text-sm text-zinc-500 dark:text-zinc-400 animate-slide-up">
+        <div className="flex-1 max-w-[800px] mx-auto w-full px-4 py-16 animate-fade-in">
+          <div className="mb-2 text-sm text-muted animate-slide-up">
             {lesson.module}
           </div>
-          <h1 className="text-3xl font-bold mb-3 animate-slide-up">
+          <h1 className="text-4xl font-bold mb-3 animate-slide-up">
             {lesson.title}
           </h1>
-          <div className="mb-6">
+          <div className="mb-8">
             <LessonMeta lesson={lesson} />
           </div>
 
@@ -52,23 +52,17 @@ export default async function LessonPage({
           </div>
 
           {quiz && (
-            <div className="mb-8 animate-slide-up">
-              <div className="flex items-center gap-2 mb-3">
-                <span className="text-lg font-semibold">课后测验</span>
-                <span className="text-sm text-zinc-500">检测一下学习成果</span>
-              </div>
+            <div className="mb-8 animate-slide-up space-y-3">
+              <div className="font-bold uppercase tracking-widest text-accent text-sm">课后测验</div>
               <Quiz quizId={quiz.id} />
             </div>
           )}
 
           {lesson.hasChat && (
-            <div className="mb-8 animate-slide-up">
-              <div className="flex items-center gap-2 mb-3">
+            <div className="mb-8 animate-slide-up space-y-3">
+              <div className="flex items-center gap-2">
                 <MessageCircle className="w-5 h-5 text-accent" />
-                <h2 className="text-lg font-semibold">AI 助教</h2>
-                <span className="text-sm text-zinc-500">
-                  有任何问题，随时提问
-                </span>
+                <span className="font-bold uppercase tracking-widest text-accent text-sm">AI 助教</span>
               </div>
               <div className="h-[500px]">
                 <ChatInterface />
@@ -77,13 +71,10 @@ export default async function LessonPage({
           )}
 
           {lesson.hasPlayground && (
-            <div className="mb-8 animate-slide-up">
-              <div className="flex items-center gap-2 mb-3">
+            <div className="mb-8 animate-slide-up space-y-3">
+              <div className="flex items-center gap-2">
                 <Wand2 className="w-5 h-5 text-accent" />
-                <h2 className="text-lg font-semibold">Prompt Playground</h2>
-                <span className="text-sm text-zinc-500">
-                  动手练习，描述你的想法，让 AI 生成代码
-                </span>
+                <span className="font-bold uppercase tracking-widest text-accent text-sm">Prompt Playground</span>
               </div>
               <div className="h-[600px]">
                 <PromptPlayground />
@@ -91,11 +82,11 @@ export default async function LessonPage({
             </div>
           )}
 
-          <div className="flex items-center justify-between pt-8 border-t animate-fade-in">
+          <div className="flex items-center justify-between pt-8 border-t border-edge animate-fade-in">
             {prevId ? (
               <Link
                 href={`/lesson/${prevId}`}
-                className="flex items-center gap-1 text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 transition-colors"
+                className="flex items-center gap-1 text-sm text-muted hover:text-accent transition-colors"
               >
                 <ChevronLeft className="w-4 h-4" />
                 上一课

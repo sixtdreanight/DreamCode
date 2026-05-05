@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { lessons } from "@/lib/lessons";
 import { BookOpen, Sparkles, ArrowRight } from "lucide-react";
-import ProgressBar from "@/components/ProgressBar";
 import TotalProgress from "@/components/TotalProgress";
 
 export default function Home() {
@@ -15,16 +14,16 @@ export default function Home() {
   );
 
   return (
-    <div className="min-h-screen bg-white dark:bg-zinc-950">
-      <header className="border-b bg-zinc-50 dark:bg-zinc-900">
-        <div className="max-w-5xl mx-auto px-6 py-8 animate-fade-in">
+    <div>
+      <header className="border-b border-edge bg-surface-alt">
+        <div className="max-w-[800px] mx-auto px-4 py-16 animate-fade-in">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 rounded-xl bg-accent flex items-center justify-center">
-              <Sparkles className="w-6 h-6 text-white" />
+            <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center">
+              <Sparkles className="w-5 h-5 text-accent" />
             </div>
-            <h1 className="text-2xl font-bold">Vibe Coding 入门课</h1>
+            <h1 className="text-4xl font-bold">梦夜的编程课</h1>
           </div>
-          <p className="text-zinc-600 dark:text-zinc-400 max-w-2xl text-lg">
+          <p className="text-muted text-lg max-w-2xl">
             零基础也能学会编程。不需要背语法、不需要写复杂代码，只要学会和 AI
             对话，你就能创造出自己的网站、工具和应用。
           </p>
@@ -34,53 +33,47 @@ export default function Home() {
         </div>
       </header>
 
-      <main className="max-w-5xl mx-auto px-6 py-10">
-        <div className="grid gap-8 md:grid-cols-2">
-          {Object.entries(modules).map(([moduleName, moduleLessons], idx) => (
-            <div
-              key={moduleName}
-              className="border rounded-2xl p-6 bg-zinc-50 dark:bg-zinc-900 hover:shadow-md transition-all hover:-translate-y-0.5 animate-slide-up"
-              style={{ animationDelay: `${idx * 100}ms` }}
-            >
-              <div className="flex items-center gap-2 mb-4">
-                <span className="w-8 h-8 rounded-full bg-accent/10 text-accent flex items-center justify-center text-sm font-bold">
-                  {idx + 1}
-                </span>
-                <h2 className="text-lg font-bold">{moduleName}</h2>
+      <main className="max-w-[800px] mx-auto px-4 py-16 space-y-8">
+        <section>
+          <div className="mb-8 font-bold uppercase tracking-widest text-accent text-sm">
+            课程大纲
+          </div>
+          <div className="grid gap-4 md:grid-cols-2 md:gap-6">
+            {Object.entries(modules).map(([moduleName, moduleLessons], idx) => (
+              <div
+                key={moduleName}
+                className="rounded-lg bg-surface-alt p-6 animate-slide-up"
+                style={{ animationDelay: `${idx * 80}ms` }}
+              >
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="w-8 h-8 rounded-full bg-accent/10 text-accent flex items-center justify-center text-sm font-bold">
+                    {idx + 1}
+                  </span>
+                  <h2 className="font-bold">{moduleName}</h2>
+                </div>
+                <ul className="space-y-1">
+                  {moduleLessons.map((lesson) => (
+                    <li key={lesson.id}>
+                      <Link
+                        href={`/lesson/${lesson.id}`}
+                        className="flex items-center gap-2 p-2 -mx-2 rounded-lg text-sm text-muted hover:text-accent transition-colors group"
+                      >
+                        <BookOpen className="w-4 h-4 shrink-0 opacity-50 group-hover:opacity-100 transition-opacity" />
+                        <span>{lesson.title}</span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
               </div>
-              <ul className="space-y-2">
-                {moduleLessons.map((lesson) => (
-                  <li key={lesson.id}>
-                    <Link
-                      href={`/lesson/${lesson.id}`}
-                      className="flex items-start gap-3 p-3 rounded-xl bg-white dark:bg-zinc-800 hover:ring-2 hover:ring-accent/20 hover:shadow-sm transition-all group"
-                    >
-                      <BookOpen className="w-5 h-5 text-zinc-400 group-hover:text-accent mt-0.5 shrink-0 transition-colors" />
-                      <div className="flex-1 min-w-0">
-                        <div className="font-medium text-sm">
-                          {lesson.title}
-                        </div>
-                        <div className="text-xs text-zinc-500 mt-0.5 line-clamp-1">
-                          {lesson.description}
-                        </div>
-                      </div>
-                      <ArrowRight className="w-4 h-4 text-zinc-300 group-hover:text-accent group-hover:translate-x-0.5 shrink-0 mt-1 transition-all" />
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        </section>
 
-        <div className="mt-16 text-center animate-fade-in">
-          <h3 className="text-xl font-bold mb-3">准备好了吗？</h3>
-          <p className="text-zinc-600 dark:text-zinc-400 mb-6">
-            点击任意课程开始学习。建议按顺序进行，但也可以跳到感兴趣的部分。
-          </p>
+        <div className="pt-8 border-t border-edge text-center animate-fade-in">
+          <p className="text-muted mb-4">建议按顺序学习，也可以跳到感兴趣的部分</p>
           <Link
             href={`/lesson/${lessons[0].id}`}
-            className="inline-flex items-center gap-2 px-6 py-3 bg-accent text-white rounded-xl font-medium hover:opacity-90 active:scale-95 transition-all"
+            className="inline-flex items-center gap-1 text-sm font-medium text-accent hover:opacity-80 transition-opacity"
           >
             开始学习第一课
             <ArrowRight className="w-4 h-4" />
@@ -88,8 +81,8 @@ export default function Home() {
         </div>
       </main>
 
-      <footer className="border-t mt-20 py-8 text-center text-sm text-zinc-500">
-        Vibe Coding 入门课 — 让每个人都能创造
+      <footer className="border-t border-edge py-8 text-center text-sm text-muted">
+        梦夜的编程课 — 让每个人都能创造
       </footer>
     </div>
   );

@@ -48,7 +48,7 @@ export default function PromptPlayground() {
         fullCode += decoder.decode(value, { stream: true });
         setCode(fullCode);
       }
-    } catch (err) {
+    } catch {
       setCode("<!-- 出错了，请检查 API Key 配置或稍后重试 -->");
     } finally {
       setLoading(false);
@@ -67,9 +67,9 @@ export default function PromptPlayground() {
     .trim();
 
   return (
-    <div className="flex flex-col h-full border rounded-xl bg-white dark:bg-zinc-900 shadow-sm overflow-hidden animate-fade-in">
-      <div className="px-4 py-3 border-b bg-zinc-50 dark:bg-zinc-800 flex items-center gap-2 shrink-0">
-        <Wand2 className="w-5 h-5 text-accent" />
+    <div className="flex flex-col h-full border border-edge rounded-lg bg-surface overflow-hidden animate-fade-in">
+      <div className="px-4 py-3 border-b border-edge bg-surface-alt flex items-center gap-2 shrink-0">
+        <Wand2 className="w-4 h-4 text-accent" />
         <span className="font-semibold text-sm">Prompt Playground</span>
       </div>
 
@@ -77,21 +77,19 @@ export default function PromptPlayground() {
         <textarea
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
-          placeholder="描述你想要做的网页，比如：帮我做一个个人介绍页面，顶部放名字，中间放照片和自我介绍..."
-          className="w-full h-24 px-4 py-3 rounded-lg border bg-white dark:bg-zinc-900 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-accent/50 transition-shadow"
+          placeholder="描述你想要做的网页，比如：帮我做一个个人介绍页面..."
+          className="w-full h-24 px-4 py-3 rounded-lg border border-edge bg-surface text-sm resize-none focus:outline-none focus:ring-2 focus:ring-accent/50 transition-shadow"
         />
         <div className="flex items-center justify-between">
-          <span className="text-xs text-zinc-400">
-            例如：&ldquo;帮我做一个番茄钟&rdquo;
-          </span>
+          <span className="text-xs text-muted">例如："帮我做一个番茄钟"</span>
           <button
             onClick={generate}
             disabled={loading || !prompt.trim()}
-            className="px-5 py-2 bg-accent text-white rounded-lg text-sm font-medium hover:opacity-90 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100 flex items-center gap-2 transition-all"
+            className="px-5 py-2 bg-accent/10 text-accent rounded-lg text-sm font-medium hover:bg-accent/20 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100 flex items-center gap-2 transition-all"
           >
             {loading ? (
               <span className="flex items-center gap-2">
-                <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                <span className="w-4 h-4 border-2 border-accent/30 border-t-accent rounded-full animate-spin" />
                 生成中...
               </span>
             ) : (
@@ -105,15 +103,15 @@ export default function PromptPlayground() {
       </div>
 
       {cleanCode && (
-        <div className="flex-1 min-h-[200px] border-t flex flex-col animate-slide-up">
-          <div className="flex items-center justify-between px-4 py-2 bg-zinc-50 dark:bg-zinc-800 border-b shrink-0">
-            <div className="flex items-center gap-2 text-sm text-zinc-600 dark:text-zinc-400">
+        <div className="flex-1 min-h-[200px] border-t border-edge flex flex-col animate-slide-up">
+          <div className="flex items-center justify-between px-4 py-2 bg-surface-alt border-b border-edge shrink-0">
+            <div className="flex items-center gap-2 text-sm text-muted">
               <Code2 className="w-4 h-4" />
               生成的代码
             </div>
             <button
               onClick={copyCode}
-              className="flex items-center gap-1 text-xs text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-200 transition-colors"
+              className="flex items-center gap-1 text-xs text-muted hover:text-accent transition-colors"
             >
               {copied ? (
                 <Check className="w-3.5 h-3.5" />
