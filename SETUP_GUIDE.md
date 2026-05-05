@@ -72,7 +72,23 @@ cp .env.example .env
 
 用文本编辑器打开项目根目录的 `.env` 文件：
 
-#### 方式一：使用 Claude（推荐）
+#### 方式一：使用 DeepSeek（推荐，国内直接访问）
+```env
+AI_PROVIDER=openai-compatible
+AI_MODEL=deepseek-chat
+AI_API_KEY=你的DeepSeek_API_Key
+AI_BASE_URL=https://api.deepseek.com/v1
+```
+
+> 获取 API Key：https://platform.deepseek.com/
+
+#### 方式二：使用其他国内模型
+
+只要是 OpenAI 兼容接口的服务都能用：
+- **硅基流动 (SiliconFlow)**：`AI_BASE_URL=https://api.siliconflow.cn/v1`
+- **阿里通义千问**：`AI_BASE_URL=https://dashscope.aliyuncs.com/compatible-mode/v1`
+
+#### 方式三：使用 Claude
 ```env
 AI_PROVIDER=anthropic
 AI_MODEL=claude-sonnet-4-20250514
@@ -81,28 +97,12 @@ AI_API_KEY=你的Anthropic_API_Key
 
 > 获取 API Key：https://console.anthropic.com/
 
-#### 方式二：使用 OpenAI
+#### 方式四：使用 OpenAI
 ```env
 AI_PROVIDER=openai
 AI_MODEL=gpt-4o
 AI_API_KEY=你的OpenAI_API_Key
 ```
-
-#### 方式三：使用其他模型（如 DeepSeek / 通义千问 等）
-
-只要提供 OpenAI 兼容接口的服务都能用：
-
-```env
-AI_PROVIDER=openai-compatible
-AI_MODEL=deepseek-chat
-AI_API_KEY=你的API_Key
-AI_BASE_URL=https://api.deepseek.com/v1
-```
-
-其他服务的 `AI_BASE_URL` 示例：
-- **DeepSeek**: `https://api.deepseek.com/v1`
-- **SiliconFlow**: `https://api.siliconflow.cn/v1`
-- **阿里通义千问**: `https://dashscope.aliyuncs.com/compatible-mode/v1`
 
 > **小提示**：`AI_API_KEY` 是通用配置；如果用 Anthropic 也可以用 `ANTHROPIC_API_KEY`，用 OpenAI 也可以用 `OPENAI_API_KEY`。
 

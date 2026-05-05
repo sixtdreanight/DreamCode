@@ -41,26 +41,26 @@ npm run dev
 
 项目支持三种 AI 提供商，在 `.env` 文件中配置：
 
-### Anthropic Claude（默认）
+### DeepSeek（推荐，国内直接访问）
+```env
+AI_PROVIDER=openai-compatible
+AI_MODEL=deepseek-chat
+AI_API_KEY=sk-...
+AI_BASE_URL=https://api.deepseek.com/v1
+```
+
+### Anthropic Claude
 ```env
 AI_PROVIDER=anthropic
 AI_MODEL=claude-sonnet-4-20250514
 ANTHROPIC_API_KEY=sk-ant-...
 ```
 
-### OpenAI
+### OpenAI 或兼容接口
 ```env
 AI_PROVIDER=openai
 AI_MODEL=gpt-4o
 OPENAI_API_KEY=sk-...
-```
-
-### 第三方（DeepSeek、通义千问 等）
-```env
-AI_PROVIDER=openai-compatible
-AI_MODEL=deepseek-chat
-AI_API_KEY=sk-...
-AI_BASE_URL=https://api.deepseek.com/v1
 ```
 
 ## 技术栈
