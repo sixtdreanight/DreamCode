@@ -6,6 +6,7 @@ import {
   getPrevLessonId,
   lessons,
 } from "@/lib/lessons";
+import { getLessonContent } from "@/lib/lessons-content";
 import LessonNavigator from "@/components/LessonNavigator";
 import ChatInterface from "@/components/ChatInterface";
 import PromptPlayground from "@/components/PromptPlayground";
@@ -31,6 +32,7 @@ export default async function LessonPage({
   const nextId = getNextLessonId(id);
   const prevId = getPrevLessonId(id);
   const quiz = lesson.quizId ? null : getQuizByLessonId(id);
+  const content = getLessonContent(id);
 
   return (
     <div className="flex min-h-screen">
@@ -48,7 +50,7 @@ export default async function LessonPage({
           </div>
 
           <div className="prose dark:prose-invert max-w-none mb-10 animate-slide-up">
-            <ReactMarkdown>{lesson.content}</ReactMarkdown>
+            <ReactMarkdown>{content}</ReactMarkdown>
           </div>
 
           {quiz && (
