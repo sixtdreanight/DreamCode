@@ -95,7 +95,7 @@ export default function ChatInterface() {
   return (
     <div className="flex flex-col h-full border rounded-xl bg-white dark:bg-zinc-900 shadow-sm overflow-hidden animate-fade-in">
       <div className="px-4 py-3 border-b bg-zinc-50 dark:bg-zinc-800 flex items-center gap-2 shrink-0">
-        <Bot className="w-5 h-5 text-blue-600" />
+        <Bot className="w-5 h-5 text-accent" />
         <span className="font-semibold text-sm">AI 学习助手</span>
       </div>
 
@@ -111,7 +111,7 @@ export default function ChatInterface() {
             <div
               className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${
                 msg.role === "user"
-                  ? "bg-blue-100 text-blue-700"
+                  ? "bg-accent/10 text-accent"
                   : "bg-green-100 text-green-700"
               }`}
             >
@@ -124,7 +124,7 @@ export default function ChatInterface() {
             <div
               className={`max-w-[80%] rounded-2xl px-4 py-2.5 text-sm leading-relaxed whitespace-pre-wrap ${
                 msg.role === "user"
-                  ? "bg-blue-600 text-white"
+                  ? "bg-accent text-white"
                   : "bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200"
               }`}
             >
@@ -144,12 +144,12 @@ export default function ChatInterface() {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="输入你的问题..."
-          className="flex-1 px-4 py-2.5 rounded-lg border bg-white dark:bg-zinc-900 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow"
+          className="flex-1 px-4 py-2.5 rounded-lg border bg-white dark:bg-zinc-900 text-sm focus:outline-none focus:ring-2 focus:ring-accent/50 transition-shadow"
         />
         <button
           type="submit"
           disabled={loading || !input.trim()}
-          className="px-4 py-2.5 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100 flex items-center gap-1.5 transition-all"
+          className="px-4 py-2.5 bg-accent text-white rounded-lg text-sm font-medium hover:opacity-90 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100 flex items-center gap-1.5 transition-all"
         >
           {loading ? (
             <span className="flex items-center gap-1.5">

@@ -25,7 +25,7 @@ export default function LessonNavigator() {
       <div className="p-4 border-b shrink-0">
         <Link
           href="/"
-          className="flex items-center gap-2 text-lg font-bold text-blue-700 dark:text-blue-400 hover:opacity-80 transition-opacity"
+          className="flex items-center gap-2 text-lg font-bold text-accent hover:opacity-80 transition-opacity"
         >
           <BookOpen className="w-5 h-5" />
           Vibe Coding 入门
@@ -47,12 +47,12 @@ export default function LessonNavigator() {
                       onClick={() => setOpen(false)}
                       className={`flex items-start gap-2 px-3 py-2 rounded-lg text-sm transition-all ${
                         isActive
-                          ? "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300 font-medium ring-1 ring-blue-500/20"
+                          ? "bg-accent/10 text-accent font-medium ring-1 ring-accent/20"
                           : "text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800"
                       }`}
                     >
                       {isActive ? (
-                        <Circle className="w-4 h-4 mt-0.5 shrink-0 fill-blue-600 text-blue-600" />
+                        <Circle className="w-4 h-4 mt-0.5 shrink-0 fill-accent text-accent" />
                       ) : (
                         <CheckCircle2 className="w-4 h-4 mt-0.5 shrink-0 text-zinc-400" />
                       )}

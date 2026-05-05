@@ -27,7 +27,13 @@ export default function RootLayout({
       lang="zh-CN"
       className={`${geistSans.variable} ${geistMono.variable} antialiased`}
     >
-      <body className="min-h-screen bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100">
+      <body className="min-h-screen bg-background text-foreground">
+        <a
+          href="https://dreamnight.net.cn"
+          className="fixed top-3 left-3 z-50 text-xs text-secondary hover:text-accent transition-colors flex items-center gap-1 bg-white/80 dark:bg-zinc-800/80 backdrop-blur px-3 py-1.5 rounded-full border border-primary shadow-sm"
+        >
+          &larr; 返回博客
+        </a>
         {children}
       </body>
     </html>

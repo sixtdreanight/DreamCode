@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { lessons } from "@/lib/lessons";
 import { BookOpen, Sparkles, ArrowRight } from "lucide-react";
+import ProgressBar from "@/components/ProgressBar";
+import TotalProgress from "@/components/TotalProgress";
 
 export default function Home() {
   const modules = lessons.reduce(
@@ -17,7 +19,7 @@ export default function Home() {
       <header className="border-b bg-zinc-50 dark:bg-zinc-900">
         <div className="max-w-5xl mx-auto px-6 py-8 animate-fade-in">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-xl bg-accent flex items-center justify-center">
               <Sparkles className="w-6 h-6 text-white" />
             </div>
             <h1 className="text-2xl font-bold">Vibe Coding 入门课</h1>
@@ -26,6 +28,9 @@ export default function Home() {
             零基础也能学会编程。不需要背语法、不需要写复杂代码，只要学会和 AI
             对话，你就能创造出自己的网站、工具和应用。
           </p>
+          <div className="mt-4 max-w-xs">
+            <TotalProgress total={lessons.length} />
+          </div>
         </div>
       </header>
 
@@ -38,7 +43,7 @@ export default function Home() {
               style={{ animationDelay: `${idx * 100}ms` }}
             >
               <div className="flex items-center gap-2 mb-4">
-                <span className="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 flex items-center justify-center text-sm font-bold">
+                <span className="w-8 h-8 rounded-full bg-accent/10 text-accent flex items-center justify-center text-sm font-bold">
                   {idx + 1}
                 </span>
                 <h2 className="text-lg font-bold">{moduleName}</h2>
@@ -48,9 +53,9 @@ export default function Home() {
                   <li key={lesson.id}>
                     <Link
                       href={`/lesson/${lesson.id}`}
-                      className="flex items-start gap-3 p-3 rounded-xl bg-white dark:bg-zinc-800 hover:ring-2 hover:ring-blue-500/20 hover:shadow-sm transition-all group"
+                      className="flex items-start gap-3 p-3 rounded-xl bg-white dark:bg-zinc-800 hover:ring-2 hover:ring-accent/20 hover:shadow-sm transition-all group"
                     >
-                      <BookOpen className="w-5 h-5 text-zinc-400 group-hover:text-blue-600 mt-0.5 shrink-0 transition-colors" />
+                      <BookOpen className="w-5 h-5 text-zinc-400 group-hover:text-accent mt-0.5 shrink-0 transition-colors" />
                       <div className="flex-1 min-w-0">
                         <div className="font-medium text-sm">
                           {lesson.title}
@@ -59,7 +64,7 @@ export default function Home() {
                           {lesson.description}
                         </div>
                       </div>
-                      <ArrowRight className="w-4 h-4 text-zinc-300 group-hover:text-blue-600 group-hover:translate-x-0.5 shrink-0 mt-1 transition-all" />
+                      <ArrowRight className="w-4 h-4 text-zinc-300 group-hover:text-accent group-hover:translate-x-0.5 shrink-0 mt-1 transition-all" />
                     </Link>
                   </li>
                 ))}
@@ -75,7 +80,7 @@ export default function Home() {
           </p>
           <Link
             href={`/lesson/${lessons[0].id}`}
-            className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl font-medium hover:bg-blue-700 active:scale-95 transition-all"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-accent text-white rounded-xl font-medium hover:opacity-90 active:scale-95 transition-all"
           >
             开始学习第一课
             <ArrowRight className="w-4 h-4" />

@@ -9,6 +9,9 @@ import {
 import LessonNavigator from "@/components/LessonNavigator";
 import ChatInterface from "@/components/ChatInterface";
 import PromptPlayground from "@/components/PromptPlayground";
+import LessonMeta from "@/components/LessonMeta";
+import Quiz from "@/components/Quiz";
+import { getQuizByLessonId } from "@/lib/quiz-data";
 import ReactMarkdown from "react-markdown";
 import { ChevronLeft, ChevronRight, MessageCircle, Wand2 } from "lucide-react";
 
@@ -27,6 +30,7 @@ export default async function LessonPage({
 
   const nextId = getNextLessonId(id);
   const prevId = getPrevLessonId(id);
+  const quiz = lesson.quizId ? null : getQuizByLessonId(id);
 
   return (
     <div className="flex min-h-screen">
@@ -36,18 +40,31 @@ export default async function LessonPage({
           <div className="mb-2 text-sm text-zinc-500 dark:text-zinc-400 animate-slide-up">
             {lesson.module}
           </div>
-          <h1 className="text-3xl font-bold mb-6 animate-slide-up">
+          <h1 className="text-3xl font-bold mb-3 animate-slide-up">
             {lesson.title}
           </h1>
+          <div className="mb-6">
+            <LessonMeta lesson={lesson} />
+          </div>
 
           <div className="prose dark:prose-invert max-w-none mb-10 animate-slide-up">
             <ReactMarkdown>{lesson.content}</ReactMarkdown>
           </div>
 
+          {quiz && (
+            <div className="mb-8 animate-slide-up">
+              <div className="flex items-center gap-2 mb-3">
+                <span className="text-lg font-semibold">课后测验</span>
+                <span className="text-sm text-zinc-500">检测一下学习成果</span>
+              </div>
+              <Quiz quizId={quiz.id} />
+            </div>
+          )}
+
           {lesson.hasChat && (
             <div className="mb-8 animate-slide-up">
               <div className="flex items-center gap-2 mb-3">
-                <MessageCircle className="w-5 h-5 text-blue-600" />
+                <MessageCircle className="w-5 h-5 text-accent" />
                 <h2 className="text-lg font-semibold">AI 助教</h2>
                 <span className="text-sm text-zinc-500">
                   有任何问题，随时提问
@@ -62,7 +79,7 @@ export default async function LessonPage({
           {lesson.hasPlayground && (
             <div className="mb-8 animate-slide-up">
               <div className="flex items-center gap-2 mb-3">
-                <Wand2 className="w-5 h-5 text-purple-600" />
+                <Wand2 className="w-5 h-5 text-accent" />
                 <h2 className="text-lg font-semibold">Prompt Playground</h2>
                 <span className="text-sm text-zinc-500">
                   动手练习，描述你的想法，让 AI 生成代码
@@ -89,7 +106,7 @@ export default async function LessonPage({
             {nextId ? (
               <Link
                 href={`/lesson/${nextId}`}
-                className="flex items-center gap-1 text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors"
+                className="flex items-center gap-1 text-sm font-medium text-accent hover:opacity-80 transition-colors"
               >
                 下一课
                 <ChevronRight className="w-4 h-4" />
@@ -97,7 +114,7 @@ export default async function LessonPage({
             ) : (
               <Link
                 href="/"
-                className="flex items-center gap-1 text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors"
+                className="flex items-center gap-1 text-sm font-medium text-accent hover:opacity-80 transition-colors"
               >
                 回到首页
                 <ChevronRight className="w-4 h-4" />
