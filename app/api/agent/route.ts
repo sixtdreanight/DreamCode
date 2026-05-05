@@ -70,7 +70,7 @@ export async function POST(req: NextRequest) {
           { status: 500, headers: { "Content-Type": "application/json" } }
         );
       }
-      const openai = createOpenAI({ apiKey, baseURL });
+      const openai = createOpenAI({ apiKey, baseURL, compatibility: 'compatible' });
       languageModel = openai(model);
     } else {
       return new Response(
@@ -101,8 +101,9 @@ export async function POST(req: NextRequest) {
     });
   } catch (error) {
     console.error("Agent API error:", error);
+    const message = error instanceof Error ? error.message : String(error);
     return new Response(
-      JSON.stringify({ error: "服务器错误，请稍后重试" }),
+      JSON.stringify({ error: `服务器错误: ${message}` }),
       { status: 500, headers: { "Content-Type": "application/json" } }
     );
   }
