@@ -70,7 +70,7 @@ export async function POST(req: NextRequest) {
           { status: 500, headers: { "Content-Type": "application/json" } }
         );
       }
-      const openai = createOpenAI({ apiKey, baseURL, compatibility: 'compatible' });
+      const openai = createOpenAI({ apiKey, baseURL });
       languageModel = openai(model);
     } else {
       return new Response(
