@@ -1,3 +1,26 @@
+import c1_1 from "@/content/lessons/1-1.md?raw";
+import c1_2 from "@/content/lessons/1-2.md?raw";
+import c1_3 from "@/content/lessons/1-3.md?raw";
+import c2_1 from "@/content/lessons/2-1.md?raw";
+import c2_2 from "@/content/lessons/2-2.md?raw";
+import c2_3 from "@/content/lessons/2-3.md?raw";
+import c3_1 from "@/content/lessons/3-1.md?raw";
+import c3_2 from "@/content/lessons/3-2.md?raw";
+import c3_3 from "@/content/lessons/3-3.md?raw";
+import c4_1 from "@/content/lessons/4-1.md?raw";
+import c4_2 from "@/content/lessons/4-2.md?raw";
+import c4_3 from "@/content/lessons/4-3.md?raw";
+import c5_1 from "@/content/lessons/5-1.md?raw";
+import c5_2 from "@/content/lessons/5-2.md?raw";
+import c5_3 from "@/content/lessons/5-3.md?raw";
+import c5_4 from "@/content/lessons/5-4.md?raw";
+import c6_1 from "@/content/lessons/6-1.md?raw";
+import c6_2 from "@/content/lessons/6-2.md?raw";
+import c6_3 from "@/content/lessons/6-3.md?raw";
+import c6_4 from "@/content/lessons/6-4.md?raw";
+import c7_1 from "@/content/lessons/7-1.md?raw";
+import c7_2 from "@/content/lessons/7-2.md?raw";
+
 export interface Lesson {
   id: string;
   module: string;
@@ -6,8 +29,8 @@ export interface Lesson {
   content: string;
   hasChat: boolean;
   hasPlayground: boolean;
-  type: 'lesson' | 'project';
-  difficulty: 'beginner' | 'intermediate' | 'advanced';
+  type: "lesson" | "project";
+  difficulty: "beginner" | "intermediate" | "advanced";
   estimatedMinutes: number;
   prerequisites: string[];
   tags: string[];
@@ -17,1310 +40,158 @@ export interface Lesson {
 
 export const lessons: Lesson[] = [
   {
-    id: "1-1",
-    module: "第一章：什么是 Vibe Coding",
-    title: "编程是什么",
+    id: "1-1", module: "第一章：什么是 Vibe Coding", title: "编程是什么",
     description: "不需要害怕，编程就是让电脑帮你做事",
-    content: `## 这节课你会...
-
-理解编程本质上是什么——不是写代码，而是"告诉电脑做什么"。
-你会发现这件事你每天都在做，只是对象从电脑换成了人。
-
----
-
-## 一个日常故事
-
-你走进一家从没去过的奶茶店，跟店员说：
-
-> "一杯珍珠奶茶，少糖，去冰，加椰果。"
-
-店员二话不说，按你的要求做出来了。
-
-你现在做的就是**编程**。你给了店员一串精确的指令（什么饮品、什么规格、什么配料），店员严格执行。编程不过是把"店员"换成"电脑"，把"口头指令"换成电脑能理解的形式。
-
-电脑和那个店员一样：**完全听话，但一个字都不会自己发挥**。你说少糖它不会自作主张加糖，你忘了说杯型它也不会帮你选。
-
----
-
-## 两个世界：过去和现在
-
-**以前**，你得学会电脑的语言才能跟它说话：
-
-
-    document.getElementById('btn').addEventListener('click', function() {
-      alert('Hello World');
-    });
-
-
-
-每一行都是精确的语法。少一个括号，电脑就罢工。学这些东西要花几个月。
-
-**现在**，你只需要跟 AI 说人话：
-
-> "帮我在网页上放一个按钮，点它的时候弹出一句 Hello World"
-
-AI 帮你翻译成上面那段代码。你的工作是**清楚描述**，AI 的工作是**精确翻译**。
-
-这就是 Vibe Coding——你不会写代码，但你会说需求。
-
----
-
-## 到底能做什么？
-
-别以为只能做"简单网页"。来看看真实案例：
-
-- **个人网站**：从名片页到完整博客，AI 都能帮你
-- **小工具**：番茄钟、记账本、倒计时、抽奖转盘
-- **数据展示**：把 Excel 表格变成可交互的图表页面
-- **自动化**：批量重命名文件、定时发邮件提醒
-- **游戏**：猜数字、2048、打砖块，小游戏完全没问题
-- **App 原型**：做出能在手机上打开的界面
-
-限制你的不是技术，是你还想不到要做什么。
-
----
-
-> 编程不是学一门语言，是学会用一种新的方式思考问题。AI 帮你解决了"语言"的部分，你只需要负责"思考"。
-`,
-    hasChat: true,
-    hasPlayground: false,
-    type: 'lesson' as const,
-    difficulty: 'beginner' as const,
-    estimatedMinutes: 8,
-    prerequisites: [],
-    tags: ['概念'],
+    content: c1_1, hasChat: true, hasPlayground: false,
+    type: "lesson", difficulty: "beginner", estimatedMinutes: 8,
+    prerequisites: [], tags: ["概念"],
   },
   {
-    id: "1-2",
-    module: "第一章：什么是 Vibe Coding",
-    title: "AI 能帮我们做什么",
+    id: "1-2", module: "第一章：什么是 Vibe Coding", title: "AI 能帮我们做什么",
     description: "了解 AI 编程助手的能力边界",
-    content: `## 这节课你会...
-
-搞清楚 AI 编程助手到底擅长什么、不擅长什么。知道边界在哪，才不会用错地方。
-
----
-
-## 它有多强？
-
-先看一个真实对话：
-
-**你**：
-> 帮我做一个网页版的番茄钟。25 分钟倒计时，有开始/暂停/重置按钮，到时间播放提示音。
-
-**AI**：（30 秒后）
-
-    <!DOCTYPE html>
-    <html>
-    ...
-    </html>
-
-
-
-一个能跑的番茄钟，30 秒。纯手写你可能要花一个下午。
-
-AI 真正擅长的事：
-- **翻译需求为代码**——你说想法，它写实现
-- **解释看不懂的东西**——把一段天书代码拆开讲给你听
-- **找到 bug**——把报错信息丢给它，通常能告诉你哪错了
-- **改写和优化**——"把这段代码改得更简洁"
-
----
-
-## 它也经常翻车
-
-AI 最让人踩坑的地方：
-
-**它不知道你心里在想什么。** 你说"做个好看的页面"，它不知道你眼里的"好看"是什么。你得说"白色背景、大标题、卡片式布局、蓝色作为强调色"。
-
-**它会编造不存在的东西。** 你让它"调用微信接口做登录"，它可能给你一段看起来很真但跑不通的代码。别让它做它不知道的事。
-
-**它不保证对。** AI 也会犯低级错误——漏掉一个引号、写错一个变量名。你得跑一遍看看能不能用。
-
-**它不了解你的具体场景。** 你做的项目、你的用户、你的业务逻辑，你最清楚。AI 能帮你实现，但不能帮你设计。
-
----
-
-## 把 AI 放对位置
-
-把 AI 想象成一个**刚从名校毕业的实习生**：
-
-- 基础知识扎实，学东西极快
-- 但不了解你的项目，不知道你的偏好
-- 会犯低级错误，需要你检查
-- 你说得越清楚，ta 做得越好
-- 你不能说"去做个网站"就不管了
-
-这个心态对了，你和 AI 的合作就顺畅了。
-`,
-    hasChat: true,
-    hasPlayground: false,
-    type: 'lesson' as const,
-    difficulty: 'beginner' as const,
-    estimatedMinutes: 8,
-    prerequisites: [],
-    tags: ['概念'],
+    content: c1_2, hasChat: true, hasPlayground: false,
+    type: "lesson", difficulty: "beginner", estimatedMinutes: 8,
+    prerequisites: [], tags: ["概念"],
   },
   {
-    id: "1-3",
-    module: "第一章：什么是 Vibe Coding",
-    title: "什么是 Vibe Coding",
+    id: "1-3", module: "第一章：什么是 Vibe Coding", title: "什么是 Vibe Coding",
     description: "进入心流状态，让创意自然流淌",
-    content: `## 这节课你会...
-
-真正理解"Vibe Coding"是什么意思——它不是玄学，是一套可以练习的方法。
-
----
-
-## 拆解这个词
-
-**Vibe**（氛围、感觉）+ **Coding**（编程）= 在流畅的感觉中编程。
-
-但这句话太虚了。具体来说，Vibe Coding 就是五个字的循环：
-
-> **想 → 说 → 看 → 改 → 重复**
-
-**想**——你脑中有一个画面："我想要一个什么样的东西"
-
-**说**——把画面翻译成文字，告诉 AI
-
-**看**——AI 给出结果，你审视它符不符合预期
-
-**改**——不符合就说"不对，我希望的是..."
-
-**重复**——直到满意
-
----
-
-## 为什么传统编程让人沮丧？
-
-写过程序的人都有这种体验：
-
-正在专心实现一个功能 → 发现语法忘了 → 切出去查文档 → 回来思路断了 → 好不容易想起来 → 又报错了 → 开始 debug → 半小时过去了 → 一个功能还没写完。
-
-这叫**上下文切换**，是人类大脑最不擅长的事。每次打断都在消耗你的注意力和热情。
-
-Vibe Coding 把"查语法"和"debug"外包给了 AI。你只需要关心一件事：**我想要什么**。
-
----
-
-## 这考验的是什么能力？
-
-不是写代码。是三个更底层的能力：
-
-**描述力**——能把模糊的感觉变成精确的文字。不说"好看点"，说"背景换成浅灰色，标题字号加大到 32px"。
-
-**判断力**——能看出 AI 给的结果对不对。不是你写的代码，但你要能判断它跑起来对不对。
-
-**迭代力**——不指望一次完美。第一版不行就描述得更清楚一点，第二版不行再改。越来越接近你心里那个画面。
-
----
-
-> Vibe Coding 不是不学编程。是换一种学法——先做出来，再用做出来的东西去学。
-`,
-    hasChat: true,
-    hasPlayground: false,
-    type: 'lesson' as const,
-    difficulty: 'beginner' as const,
-    estimatedMinutes: 8,
-    prerequisites: [],
-    tags: ['概念'],
+    content: c1_3, hasChat: true, hasPlayground: false,
+    type: "lesson", difficulty: "beginner", estimatedMinutes: 10,
+    prerequisites: ["1-1", "1-2"], tags: ["概念"],
   },
   {
-    id: "2-1",
-    module: "第二章：如何和 AI 对话",
-    title: "描述你的需求",
+    id: "2-1", module: "第二章：如何和 AI 对话", title: "描述你的需求",
     description: "好的描述 = 好的结果",
-    content: `## 这节课你会...
-
-学会写高质量的 Prompt——这是 Vibe Coding 里最重要的技能。好的 Prompt 和差的 Prompt，得到的结果天差地别。
-
----
-
-## 先看两个版本
-
-你要做一个个人主页。下面是两种描述方式：
-
-**版本 A**：
-> 帮我做个个人主页
-
-**版本 B**：
-> 帮我做一个个人主页，顶部是我的名字"小明"，大字居中。下面是一段 80 字左右的自我介绍，用浅灰色文字。再下面是三个图标链接：GitHub、邮箱、微博。整体白色背景，简洁风格，手机也能看。
-
-猜猜哪个结果更好用？
-
----
-
-## 解剖一条好 Prompt
-
-把版本 B 拆开来看，它包含了四个要素：
-
-| 要素 | 含义 | 版本 B 的体现 |
-|------|------|-------------|
-| **做什么** | 项目的类型和目的 | "个人主页" |
-| **有什么** | 具体内容和功能 | "名字、自我介绍、三个图标链接" |
-| **长什么样** | 视觉风格 | "白色背景、简洁、手机也能看" |
-| **细节规格** | 精确的数值和约束 | "80 字左右、大字居中、浅灰色" |
-
-四个要素不需要每次都写全，但**"有什么"和"细节规格"是最关键的**。大多数人 Prompt 写不好，就是因为只说了"做什么"，没给规格。
-
----
-
-## 抽象 vs 具体
-
-| 不要说 | 要说 |
-|--------|------|
-| 好看一点 | 背景用 #f5f5f5，标题 32px 加粗，卡片加 1px 灰色边框 |
-| 快一点 | 图片用懒加载，CSS 文件合并成一个 |
-| 按钮明显一点 | 按钮用圆角 8px，蓝色背景 #3b82f6，白色文字，hover 时变深 |
-| 手机也能看 | 宽度小于 768px 时卡片从两列变一列 |
-
-AI 听不懂"好看""快""明显"。它只听得懂**颜色值、像素值、具体规则**。
-
----
-
-## 练习
-
-用这个模板写三条 Prompt，分别描述：
-1. 一个你想要的网页
-2. 一个小工具
-3. 一个你想改的现存页面
-
-每条都包含四个要素。
-`,
-    hasChat: true,
-    hasPlayground: false,
-    type: 'lesson' as const,
-    difficulty: 'beginner' as const,
-    estimatedMinutes: 10,
-    prerequisites: ['1-1', '1-2'],
-    tags: ['概念'],
+    content: c2_1, hasChat: true, hasPlayground: false,
+    type: "lesson", difficulty: "beginner", estimatedMinutes: 10,
+    prerequisites: ["1-3"], tags: ["技巧"],
   },
   {
-    id: "2-2",
-    module: "第二章：如何和 AI 对话",
-    title: "给出具体例子",
+    id: "2-2", module: "第二章：如何和 AI 对话", title: "给出具体例子",
     description: "例子比抽象描述更有力",
-    content: `## 这节课你会...
-
-学会用"举例子"的方式让 AI 更准确地理解你。有时候一个例子比一百个字管用。
-
----
-
-## 一图胜千言
-
-假设你想做一个登录页面。你可以跟 AI 说很多：
-
-> "左边一个图片区域，右边是表单，表单上面放 logo..."
-
-也可以直接说：
-
-> "做一个登录页面，布局参考苹果 iCloud 登录页——左右分栏，左边放品牌图，右边放登录表单。"
-
-AI 可能不知道你见过哪些网站，但你提到的它大概率知道。**用知名的东西做参照物，是最省力的描述方式。**
-
----
-
-## 三种参考方式
-
-**给网址**：
-> "这个页面的布局风格参考 https://stripe.com/pricing 的卡片式设计"
-
-**给截图描述**：
-> "我想做的布局大概是这样：最上面是大标题，下面并排三列，每列一个图标 + 标题 + 描述文字，最下面一个按钮"
-
-**给代码片段**：
-> "这段代码的效果我可以接受，但颜色太暗了，帮我把背景换成白色系"
-
----
-
-## 参考不是抄袭
-
-有些学习者会担心："参考别人的设计是不是不好？"
-
-完全不是。参考和抄袭的区别：
-
-- **参考**："我喜欢 Stripe 定价页那种三列卡片式布局，帮我做一个类似感觉的"
-- **抄袭**：把别人的代码原封不动搬过来，换个名字
-
-所有设计师和开发者都在"参考"——看别人的作品，吸收灵感，化为己用。这是学习的一部分。
-
----
-
-> 写 Prompt 不是考试。你不需要凭空想出完美的描述。看到好东西，告诉 AI "像那样"，这不丢人。
-`,
-    hasChat: true,
-    hasPlayground: false,
-    type: 'lesson' as const,
-    difficulty: 'beginner' as const,
-    estimatedMinutes: 10,
-    prerequisites: ['1-3'],
-    tags: ['技巧'],
+    content: c2_2, hasChat: true, hasPlayground: false,
+    type: "lesson", difficulty: "beginner", estimatedMinutes: 12,
+    prerequisites: ["2-1"], tags: ["技巧"],
   },
   {
-    id: "2-3",
-    module: "第二章：如何和 AI 对话",
-    title: "一步步来",
+    id: "2-3", module: "第二章：如何和 AI 对话", title: "一步步来",
     description: "不要一次要求太多，分步实现",
-    content: `## 这节课你会...
-
-学会最重要的 Vibe Coding 工作方法：分步推进。一上来就要完整的复杂项目，大概率翻车。
-
----
-
-## 一个真实教训
-
-小明第一次用 AI 做项目，他发了这样一句话：
-
-> "帮我做一个完整的电商网站，有首页、商品列表、购物车、结算、用户登录，界面要像淘宝那样好看。"
-
-AI 生成了一大段代码，两千多行。他复制粘贴，打开一看——页面乱七八糟，完全没法用。但代码太长，他根本不知道从哪开始修。
-
-他花了两个小时，最后放弃了。
-
----
-
-## 换个做法
-
-第二天，他换了个方式：
-
-**第一步**：
-> "先做一个最简单的商品列表页，只有 6 个商品卡片，每张卡片有图片、名称、价格。不需要登录，不需要购物车。"
-
-AI 生成 100 行代码。能跑。卡片排列整齐。
-
-**第二步**：
-> "很好。现在给每个商品卡片加一个'加入购物车'按钮。点击后把商品加到右上角的购物车图标里，图标显示数量。"
-
-AI 修改了 30 行。能跑。按钮正常。
-
-**第三步**：
-> "现在购物车可以有下拉菜单了。点击右上角购物车图标，展开一个侧边栏，显示已加的商品列表和总价。"
-
-AI 又改了 50 行。
-
-三小时后，他有了一个能用的商品列表 + 购物车。虽然离"完整电商网站"还很远，但已经能看、能用、能继续加了。
-
----
-
-## 为什么分步比一次生成好？
-
-**你能控制**。100 行代码出问题，你大概知道哪 30 行是刚才加的。1000 行出问题，你蒙了。
-
-**坏了好修**。每步之后保存一个版本（v1.html, v2.html, v3.html）。改坏了随时回退。
-
-**看得懂**。你亲自参与了每一步的演进，每一块代码你都看过，知道它为什么在那里。
-
----
-
-> 慢就是快。每次只做一件事，你最终完成的比一次贪心多得多。
-`,
-    hasChat: true,
-    hasPlayground: false,
-    type: 'lesson' as const,
-    difficulty: 'beginner' as const,
-    estimatedMinutes: 12,
-    prerequisites: ['2-1'],
-    tags: ['技巧'],
+    content: c2_3, hasChat: true, hasPlayground: false,
+    type: "lesson", difficulty: "beginner", estimatedMinutes: 10,
+    prerequisites: ["2-2"], tags: ["技巧"],
   },
   {
-    id: "3-1",
-    module: "第三章：动手实践",
-    title: "创建一个网页",
+    id: "3-1", module: "第三章：动手实践", title: "创建一个网页",
     description: "打开右侧 playground，开始你的第一次 vibe coding",
-    content: `## 这节课你会...
-
-打开右侧的 Playground，亲自体验从一句话到一个网页的全过程。
-
----
-
-## 选一个题目开始
-
-三个题目，选一个最有感觉的：
-
-**A. 个人名片页**
-做一个展示自己的页面：名字、简介、联系方式、一张头像。
-
-**B. 倒计时页面**
-显示距离某个日期还剩多少天/时/分/秒，比如"距离 2026 年春节还有 XX 天"。
-
-**C. 颜色展示板**
-展示 6 个你喜欢的颜色，每个显示色值和名字，点击可以复制色值到剪贴板。
-
----
-
-## 没有"一次成功"这回事
-
-打开 Playground，输入你选好的题目描述。等你收到第一版代码，大概率是这种感觉：
-
-> "emmm...跟我想的不太一样"
-
-太正常了。所有人第一版都是这样。这不是你的问题，也不是 AI 的问题。**是描述和实现之间天然存在的距离。**
-
----
-
-## 迭代清单
-
-不满意的话，按这个清单逐条改：
-
-**改布局**："标题居左不好看，改成居中"
-**改尺寸**："卡片太小了，宽度改成 320px"
-**改颜色**："背景太白了，换成浅灰色 #f5f5f5"
-**改间距**："元素之间太挤了，间距加大一点"
-**加内容**："在名字下面加一行座右铭"
-**去内容**："底部的版权声明不需要，去掉"
-
-每条只说一个改动。每改完一条，看效果，满意了再改下一条。
-`,
-    hasChat: false,
-    hasPlayground: true,
-    type: 'lesson' as const,
-    difficulty: 'beginner' as const,
-    estimatedMinutes: 10,
-    prerequisites: ['2-2'],
-    tags: ['技巧'],
+    content: c3_1, hasChat: false, hasPlayground: true,
+    type: "lesson", difficulty: "beginner", estimatedMinutes: 15,
+    prerequisites: ["2-3"], tags: ["实践"],
   },
   {
-    id: "3-2",
-    module: "第三章：动手实践",
-    title: "修改和优化",
+    id: "3-2", module: "第三章：动手实践", title: "修改和优化",
     description: "迭代是 Vibe Coding 的核心",
-    content: `## 这节课你会...
-
-学会 Vibe Coding 最核心的工作节奏：迭代。第一版永远不完美，完美来自一遍遍的打磨。
-
----
-
-## 五个版本的故事
-
-一个学习者做了一个待办清单。来看看它怎么一步步变好的：
-
-**v1**：输入框 + 添加按钮 + 任务列表。能添任务，但刷新就没了。
-
-**v2**：加了 localStorage，刷新数据还在。但完成的任务没法标记。
-
-**v3**：点击任务加删除线、变灰色。但不能删任务。
-
-**v4**：加了删除按钮。但所有任务混在一起，已完成的也在列表里。
-
-**v5**：加了筛选按钮——全部 / 进行中 / 已完成。清爽了。
-
-每个版本只比上一个多**一个功能**。每一步只需要改 20-50 行代码。他从 v1 到 v5 用了不到一小时。
-
----
-
-## 迭代时必做的三件事
-
-**1. 每次只改一样**
-
-不说"把样式改好看一点、再加个搜索框、顺便把数据存到本地"。拆成三条，一条一条发给 AI。
-
-**2. 改完就看效果**
-
-别攒着。每改完一次，刷新浏览器确认正常。出了问题你立刻知道是哪次改动引起的。
-
-**3. 保存每个版本**
-
-文件名用版本号：todo-v1.html, todo-v2.html, todo-v3.html。改坏了不需要撤回，直接回到上个版本。
-
----
-
-## 常见的修改指令
-
-**样式类**："把标题从 24px 改成 32px，颜色从黑色改成深蓝色 #1e3a5f"
-**功能类**："加一个搜索框，输入关键字后筛选列表"
-**结构类**："把左右布局改成上下布局，卡片最大宽度 600px 居中"
-**修复类**："删除按钮点第二次会报错，帮我看下哪里有问题"
-`,
-    hasChat: false,
-    hasPlayground: true,
-    type: 'lesson' as const,
-    difficulty: 'beginner' as const,
-    estimatedMinutes: 15,
-    prerequisites: ['2-3'],
-    tags: ['实践'],
+    content: c3_2, hasChat: false, hasPlayground: true,
+    type: "lesson", difficulty: "beginner", estimatedMinutes: 12,
+    prerequisites: ["3-1"], tags: ["实践"],
   },
   {
-    id: "3-3",
-    module: "第三章：动手实践",
-    title: "保存你的代码",
+    id: "3-3", module: "第三章：动手实践", title: "保存你的代码",
     description: "学会管理和备份你的作品",
-    content: `## 这节课你会...
-
-学会保存和管理你的代码。代码只在浏览器里，关了就没了。
-
----
-
-## 三种保存方式
-
-### 本地文件（最推荐）
-
-1. 建一个文件夹，比如 \`my-projects\`
-2. 每个项目一个子文件夹：\`todo-app/\`、\`my-homepage/\`
-3. 保存每个版本：\`v1.html\`、\`v2.html\`
-
-双击 \`.html\` 文件，浏览器就能打开。
-
-### 在线工具
-
-不想折腾本地文件的话：
-- **CodePen**（codepen.io）：在线写代码，立刻看效果，适合快速测试
-- **JSFiddle**（jsfiddle.net）：轻量，适合短代码
-
-### GitHub
-
-专业开发者的选择。注册一个免费账号，上传你的项目文件，开启 GitHub Pages 就能得到一个网址。第 7 章会详细讲。
-
----
-
-## 文件命名规则
-
-| 不好 | 好 |
-|------|-----|
-| 新建文件1.html | todo-app-v1.html |
-| 网页.html | personal-homepage.html |
-| 最终版(3).html | my-website-v3.html |
-
-规则：**英文或拼音，用连字符 - 代替空格，加版本号**。
-
----
-
-## 每个项目都应该有一个 README
-
-新建一个 \`readme.txt\` 放在项目文件夹里，写三行：
-
-- 这是什么项目
-- 怎么打开（双击 index.html）
-- 你是什么时候做的
-
-三个月后你会感谢现在的自己。
-`,
-    hasChat: true,
-    hasPlayground: false,
-    type: 'lesson' as const,
-    difficulty: 'beginner' as const,
-    estimatedMinutes: 12,
-    prerequisites: ['3-1'],
-    tags: ['实践'],
+    content: c3_3, hasChat: true, hasPlayground: false,
+    type: "lesson", difficulty: "intermediate", estimatedMinutes: 12,
+    prerequisites: ["3-2"], tags: ["实践", "工具"],
   },
   {
-    id: "4-1",
-    module: "第四章：进阶技巧",
-    title: "当 AI 犯错时怎么办",
+    id: "4-1", module: "第四章：进阶技巧", title: "当 AI 犯错时怎么办",
     description: "AI 不是万能的，学会处理错误",
-    content: `## 这节课你会...
-
-搞清楚 AI 最常见的几种错误，以及每种错误的应对方法。遇到问题不慌，知道怎么跟 AI 沟通。
-
----
-
-## 五种常见翻车现场
-
-### 1. 幻觉——无中生有
-
-AI 告诉你："你可以用 \`getUserLocation()\` 这个浏览器 API 来获取用户位置。"
-
-你用了，报错了。因为**这个 API 根本不存在**，是 AI 编的。
-
-**怎么办**：让 AI "用纯 HTML/CSS/JS，不依赖任何第三方库和未广泛支持的 API"。加约束。
-
----
-
-### 2. 理解偏差——会错意
-
-你说"按钮放在右边"，它把按钮放到了最右，但你其实是说"放在文字右边"，不是页面最右。
-
-**怎么办**：别跟 AI 赌气。补一句："抱歉没说清楚，我说的右边是紧挨着文字的右边，不是页面对齐。"
-
----
-
-### 3. 知识过时
-
-某个库刚发布了新版，API 变了。AI 还在用旧版的写法，跑不起来。
-
-**怎么办**：把报错信息贴给它。大多数情况下它会意识到问题并修正。
-
----
-
-### 4. 不完整
-
-代码写到一半突然停了，结尾没有 \`</html>\`。
-
-**怎么办**："上一段代码不完整，请继续完成"——或者直接要求"生成完整文件，不要截断"。
-
----
-
-### 5. 逻辑错误
-
-代码能跑，但结果不对。比如计算器算 1+1 得到 11（字符串拼接而不是数字运算）。
-
-**怎么办**：告诉它**预期的输入和输出**。"当我输入 1 和 1 时，我期望得到 2，但实际得到了 11。"
-`,
-    hasChat: true,
-    hasPlayground: false,
-    type: 'lesson' as const,
-    difficulty: 'intermediate' as const,
-    estimatedMinutes: 12,
-    prerequisites: ['3-2'],
-    tags: ['实践', '工具'],
+    content: c4_1, hasChat: true, hasPlayground: false,
+    type: "lesson", difficulty: "intermediate", estimatedMinutes: 12,
+    prerequisites: ["3-3"], tags: ["技巧"],
   },
   {
-    id: "4-2",
-    module: "第四章：进阶技巧",
-    title: "如何继续对话",
+    id: "4-2", module: "第四章：进阶技巧", title: "如何继续对话",
     description: "让 AI 记住上下文，保持连贯",
-    content: `## 这节课你会...
-
-学会管理跟 AI 的长对话——什么时候该继续，什么时候该新开，什么时候该总结。
-
----
-
-## 对话像鱼，久了会臭
-
-一次对话里，AI 能记住的最近内容有限。DeepSeek 的上下文窗口很大（上百万字），但**越长的对话，AI 越容易"忘记"最早的设定**，而且回复越来越慢。
-
-如果你已经跟 AI 聊了两百条消息，最初的"你是零基础编程助手"这个设定可能已经被冲淡了。
-
----
-
-## 什么时候该新开对话？
-
-三个信号：
-
-1. **AI 开始答非所问**——你说 A 它回 B，可能是上下文太长了
-2. **你换了新项目**——旧对话里全是上一个项目的代码，新项目会受干扰
-3. **回复明显变慢**——长对话消耗更多计算资源
-
----
-
-## 新开对话的正确方式
-
-直接新开会丢失所有历史。所以新开之前，先做一件事：
-
-> "请总结一下我们目前做的项目：用了什么技术，实现了哪些功能，当前代码结构是怎样的。"
-
-把这段总结粘贴到新对话开头：
-
-> "我们正在做一个待办清单项目。当前已完成：添加任务、标记完成、删除任务。数据用 localStorage 存储。这是当前代码：[粘贴]。现在请继续完成搜索筛选功能。"
-
-新对话有了完整上下文，继续开发无缝衔接。
-`,
-    hasChat: true,
-    hasPlayground: false,
-    type: 'lesson' as const,
-    difficulty: 'intermediate' as const,
-    estimatedMinutes: 12,
-    prerequisites: ['3-3'],
-    tags: ['技巧'],
+    content: c4_2, hasChat: true, hasPlayground: false,
+    type: "lesson", difficulty: "intermediate", estimatedMinutes: 10,
+    prerequisites: ["4-1"], tags: ["技巧"],
   },
   {
-    id: "4-3",
-    module: "第四章：进阶技巧",
-    title: "做出你的作品",
+    id: "4-3", module: "第四章：进阶技巧", title: "做出你的作品",
     description: "从学习到创造，完成你的第一个项目",
-    content: `## 这节课你会...
-
-学完前四章，是时候做一个完整的项目了。这节课不是教你新知识，是帮你把学的用出来。
-
----
-
-## 选一个项目
-
-别挑太宏大的。范围越小，越容易做完。
-
-**15 分钟级**：个人简历页、单页倒计时、名言展示器
-**1 小时级**：待办清单、番茄钟、简易计算器
-**半天级**：天气预报展示、读书笔记管理、记账本
-
-挑一个你真正想用的。为自己做的东西，动力完全不一样。
-
----
-
-## 完整流程
-
-1. **画草图**（纸笔，5 分钟）——不用好看，画个大概结构
-2. **写 Prompt**（按照 2-1 的公式，包含四个要素）
-3. **迭代**（2-3 的节奏，每次只改一个功能）
-4. **加细节**（颜色、字体、动画）
-5. **测试**（手机上打开看看，发给朋友让他们试试）
-6. **保存**（3-3 的文件管理方式）
-7. **发布**（第 7 章会教你怎么部署到网上）
-
----
-
-> 先完成，再完美。一个能跑的烂项目，比一个永远在做的好项目，有价值一万倍。
-`,
-    hasChat: true,
-    hasPlayground: true,
-    type: 'lesson' as const,
-    difficulty: 'intermediate' as const,
-    estimatedMinutes: 15,
-    prerequisites: ['4-2'],
-    tags: ['实践', '项目'],
+    content: c4_3, hasChat: true, hasPlayground: true,
+    type: "lesson", difficulty: "intermediate", estimatedMinutes: 15,
+    prerequisites: ["4-2"], tags: ["实践", "项目"],
   },
-  // ====== 第五章 ======
   {
-    id: "5-1",
-    module: "第五章：工具与准备工作",
-    title: "AI 工具对比与选择",
+    id: "5-1", module: "第五章：工具与准备工作", title: "AI 工具对比与选择",
     description: "Claude、ChatGPT、Cursor、Copilot 各有千秋，选对工具事半功倍",
-    content: `
-## AI 工具对比与选择
-
-市面上的 AI 编程工具很多，选哪个好？别急，看完这一课你就清楚了。
-
-### 四大主流工具
-
-| 工具 | 适合人群 | 特点 | 价格 |
-|------|---------|------|------|
-| **Claude** | 零基础/初学者 | 对话最自然，代码质量高，解释详细 | 免费额度 + \$20/月 |
-| **ChatGPT** | 零基础/初学者 | 用户最多，插件丰富，社区活跃 | 免费额度 + \$20/月 |
-| **Cursor** | 进阶用户 | 专为编程设计的编辑器， AI 深度集成 | 免费额度 + \$20/月 |
-| **GitHub Copilot** | 开发者 | 在 VS Code 里实时补全代码 | 免费额度 + \$10/月 |
-
-### 我的推荐
-
-**如果你是第一次接触编程**：用 Claude 或 ChatGPT 的网页版就够了。不需要安装任何软件，打开浏览器就能用。
-
-**如果你想更深入学习**：下载 Cursor，它是基于 VS Code 的 AI 编辑器，能直接编辑项目文件。
-
-### 常见误区
-
-> "贵的工具一定更好？"——不一定。对于 Vibe Coding 入门来说，免费额度的工具已经足够。关键是学会描述需求，而不是工具本身。
-
-### 要点总结
-
-- 初学者推荐 Claude 或 ChatGPT 网页版，零门槛
-- Cursor 和 Copilot 更适合有一定基础后使用
-- 所有工具都有免费额度，先免费试用再决定是否付费
-`,
-    hasChat: true,
-    hasPlayground: false,
-    type: 'lesson' as const,
-    difficulty: 'beginner' as const,
-    estimatedMinutes: 10,
-    prerequisites: ['4-3'],
-    tags: ['工具'],
+    content: c5_1, hasChat: true, hasPlayground: false,
+    type: "lesson", difficulty: "beginner", estimatedMinutes: 10,
+    prerequisites: ["4-3"], tags: ["工具"],
   },
   {
-    id: "5-2",
-    module: "第五章：工具与准备工作",
-    title: "注册与第一次对话",
+    id: "5-2", module: "第五章：工具与准备工作", title: "注册与第一次对话",
     description: "从注册账号到发出第一条指令，一步步带你上手",
-    content: `
-## 注册与第一次对话
-
-光说不练假把式，这节课我们来实际操作。
-
-### 注册 Claude 账号
-
-1. 打开 https://claude.ai
-2. 点击 "Sign Up" 注册账号（可以用 Google 账号或邮箱）
-3. 验证邮箱后登录
-4. 进入对话界面
-
-### 你的第一次对话
-
-在输入框里输入你的第一条指令：
-
-> 你好！我想学习编程，但我完全没有基础。你能告诉我应该从哪里开始吗？
-
-按下发送键， AI 就会回复你了。
-
-### 对话的基本结构
-
-一条好的对话包含三个要素：
-
-1. **角色设定**（可选）——"你是一位耐心的编程老师"
-2. **背景信息**——"我完全零基础，想学前端开发"
-3. **具体问题**——"请用大白话解释什么是 HTML"
-
-### 现在就试试
-
-打开你选择的 AI 工具，输入上面的示例对话，感受一下和 AI 交流的感觉。
-
-### 常见误区
-
-> "我英语不好，能学吗？"——完全没问题！ Claude 和 ChatGPT 都支持中文对话。用中文描述你的需求， AI 能听懂。
-
-### 要点总结
-
-- 注册一个 AI 工具账号，选择免费版即可
-- 第一次对话从简单的自我介绍开始
-- 中文完全没问题，不需要英语基础
-`,
-    hasChat: true,
-    hasPlayground: false,
-    type: 'lesson' as const,
-    difficulty: 'beginner' as const,
-    estimatedMinutes: 8,
-    prerequisites: ['5-1'],
-    tags: ['工具'],
+    content: c5_2, hasChat: true, hasPlayground: false,
+    type: "lesson", difficulty: "beginner", estimatedMinutes: 8,
+    prerequisites: ["5-1"], tags: ["工具"],
   },
   {
-    id: "5-3",
-    module: "第五章：工具与准备工作",
-    title: "文件与文件夹基础",
+    id: "5-3", module: "第五章：工具与准备工作", title: "文件与文件夹基础",
     description: "不懂编程也要会的文件管理知识",
-    content: `
-## 文件与文件夹基础
-
-在做项目之前，你需要知道怎么管理文件。很简单， 5 分钟学会。
-
-### 什么是文件？
-
-你在电脑上看到的一切都是文件：
-- 照片（.jpg、.png）
-- 文档（.docx、.pdf）
-- 网页（.html）
-- 代码（.js、.py、.ts）
-
-文件名由两部分组成：**名称** + **扩展名**（点后面的部分）。扩展名告诉电脑这个文件是什么类型。
-
-### 创建你的第一个 HTML 文件
-
-1. 在桌面上新建一个文件夹，命名为 "my-first-project"
-2. 打开文件夹，右键 → 新建 → 文本文档
-3. 将文件名改为 "index.html"（注意是 .html 不是 .txt）
-4. 右键这个文件 → 打开方式 → 记事本
-5. 粘贴以下内容：
-
-\\`\\`\\`html
-<!DOCTYPE html>
-<html>
-<head><title> 我的第一个网页 </title></head>
-<body>
- <h1>Hello World！ </h1>
- <p> 这是我的第一个网页。 </p>
-</body>
-</html>
-\\`\\`\\`
-
-6. 保存文件（ Ctrl+S）
-7. 双击文件，浏览器会自动打开，看到你的第一个网页！
-
-### 文件命名建议
-
-- 用英文或拼音命名（中文可能在部分工具中出问题）
-- 不要有空格（用 - 或 _ 代替，如 my-page.html）
-- 名称要有意义（不要叫 "新建文件 1"）
-
-### 要点总结
-
-- 文件扩展名决定了文件类型
-- HTML 文件的扩展名是 .html
-- 命名用英文，用 - 代替空格
-- 建一个专门的文件夹存放你的所有项目
-`,
-    hasChat: false,
-    hasPlayground: false,
-    type: 'lesson' as const,
-    difficulty: 'beginner' as const,
-    estimatedMinutes: 10,
-    prerequisites: ['5-2'],
-    tags: ['工具'],
+    content: c5_3, hasChat: false, hasPlayground: false,
+    type: "lesson", difficulty: "beginner", estimatedMinutes: 10,
+    prerequisites: ["5-2"], tags: ["工具"],
   },
   {
-    id: "5-4",
-    module: "第五章：工具与准备工作",
-    title: "浏览器开发者工具入门",
+    id: "5-4", module: "第五章：工具与准备工作", title: "浏览器开发者工具入门",
     description: "按 F12 能看到什么？学会查看和调试代码效果",
-    content: `
-## 浏览器开发者工具入门
-
-每个浏览器都有一套隐藏的"开发者工具"，是查看网页内部结构的神器。
-
-### 打开开发者工具
-
-- **Chrome/Edge**：按 F12，或右键页面 → 检查
-- **Safari**：先在偏好设置中开启"开发"菜单，再按 Cmd+Option+I
-
-### 你能看到什么？
-
-打开后你会看到几个标签页：
-
-1. **Elements（元素）**——网页的 HTML 结构，你可以实时修改文字和样式
-2. **Console（控制台）**——显示 JavaScript 的日志和错误信息
-3. **Sources（源代码）**——网页的原始文件
-4. **Network（网络）**——网页加载了什么文件
-
-### 实际用途
-
-对 Vibe Coding 学习者来说，开发者工具最有用的功能是：
-
-- **查看错误**：如果页面出问题， Console 里会有红色报错信息，把这信息发给 AI 帮你分析
-- **临时修改**：在 Elements 里双击文字可以临时修改，刷新后恢复（用来测试想法）
-- **调试代码**： AI 生成的代码跑不起来？打开 Console 看报错，粘贴给 AI
-
-### 常见误区
-
-> "开发者工具看起来好复杂，我是不是学不会？"——你不需要全部搞懂。现阶段只需要知道：打开 F12 → 找到 Console → 把红色的报错信息复制给 AI。
-
-### 要点总结
-
-- F12 打开开发者工具
-- Console 标签页查看错误信息
-- 报错信息发给 AI 帮你分析
-- 现阶段会用 Console 就够了
-`,
-    hasChat: true,
-    hasPlayground: false,
-    type: 'lesson' as const,
-    difficulty: 'intermediate' as const,
-    estimatedMinutes: 12,
-    prerequisites: ['5-3'],
-    tags: ['工具'],
+    content: c5_4, hasChat: true, hasPlayground: false,
+    type: "lesson", difficulty: "intermediate", estimatedMinutes: 12,
+    prerequisites: ["5-3"], tags: ["工具"],
   },
-  // ====== 第六章 ======
   {
-    id: "6-1",
-    module: "第六章：动手做项目",
-    title: "做一个个人主页",
+    id: "6-1", module: "第六章：动手做项目", title: "做一个个人主页",
     description: "从零开始，构建属于你的个人名片网页",
-    content: `
-## 做一个个人主页
-
-前面学了这么多理论，是时候动手了！第一个项目：做一个简单但好看的个人主页。
-
-### 第一步：描述你的需求
-
-打开 Playground 或你常用的 AI 工具，输入：
-
-> 帮我做一个个人主页，要求：
-> - 顶部是你的名字（大标题）
-> - 中间是一段 100 字左右的自我介绍
-> - 底部放你的联系方式（邮箱、 GitHub）
-> - 整体风格简洁清新，用白色背景 + 蓝色作为强调色
-> - 需要适配手机屏幕
-
-### 第二步：预览效果
-
-1. 复制 AI 生成的代码
-2. 粘贴到一个新的 HTML 文件
-3. 双击打开，看看效果
-
-### 第三步：迭代修改
-
-不满意的地方直接告诉 AI：
-- "背景改成浅灰色"
-- "字体太大了，缩小一点"
-- "在我名字下面加一句座右铭"
-- "联系方式改成带图标的样式"
-
-### 第四步：个性化
-
-把你的真实信息填进去：
-- 换上你自己的名字
-- 写上真实的自我介绍
-- 填入真实的联系方式
-
-### 常见误区
-
-> "AI 生成的代码我一行都看不懂，改不了。"——没关系！你不需要看懂代码。你只需要告诉 AI 你想改什么， AI 会帮你改。这就是 Vibe Coding 的核心！
-
-### 要点总结
-
-- 从清晰的描述开始
-- 预览效果 → 提出修改 → 再次预览
-- 用你自己的信息个性化
-- 保存为 .html 文件，随时可以修改
-`,
-    hasChat: false,
-    hasPlayground: true,
-    type: 'lesson' as const,
-    difficulty: 'beginner' as const,
-    estimatedMinutes: 15,
-    prerequisites: ['5-4'],
-    tags: ['实践', '项目'],
+    content: c6_1, hasChat: false, hasPlayground: true,
+    type: "lesson", difficulty: "beginner", estimatedMinutes: 15,
+    prerequisites: ["5-4"], tags: ["实践", "项目"],
   },
   {
-    id: "6-2",
-    module: "第六章：动手做项目",
-    title: "做一个待办清单",
+    id: "6-2", module: "第六章：动手做项目", title: "做一个待办清单",
     description: "学会创建有交互功能的网页应用",
-    content: `
-## 做一个待办清单
-
-比静态网页更进一步——做一个能交互的待办清单。
-
-### 核心功能
-
-告诉 AI 你需要这些功能：
-1. 输入框 + 添加按钮，输入任务后添加到列表
-2. 点击任务标记为完成（加删除线）
-3. 点击删除按钮移除任务
-4. 显示还有多少任务未完成
-5. 数据保存在浏览器本地（刷新不丢失）
-
-### 推荐的 Prompt
-
-> 帮我做一个待办清单网页，要求：
-> - 顶部输入框和添加按钮
-> - 列表显示所有任务
-> - 点击任务可以标记完成（文字加删除线，颜色变灰）
-> - 每个任务右边有删除按钮
-> - 底部显示"还有 X 项未完成"
-> - 使用 localStorage 保存数据，刷新页面数据还在
-> - 简洁现代的设计风格
-> - 所有代码放在一个 HTML 文件中
-
-### 学到的技能
-
-做完这个项目，你会掌握：
-- 表单输入处理
-- 列表的动态增删
-- 数据持久化（ localStorage）
-- 状态管理的基本概念
-
-### 进阶挑战
-
-如果基础版做完了，试试增加这些功能：
-- 双击任务可以编辑文字
-- 添加任务分类标签
-- 按完成状态筛选（全部/进行中/已完成）
-- 添加截止日期功能
-
-### 常见误区
-
-> "越做越复杂，最后卡住了。"——建议先把基础功能做好，再逐步加功能。每次只加一个功能，确认能用后再加下一个。
-
-### 要点总结
-
-- 从基础功能开始，逐步迭代
-- localStorage 让数据持久化存储
-- 每次只加一个新功能
-`,
-    hasChat: false,
-    hasPlayground: true,
-    type: 'lesson' as const,
-    difficulty: 'intermediate' as const,
-    estimatedMinutes: 15,
-    prerequisites: ['6-1'],
-    tags: ['实践', '项目'],
+    content: c6_2, hasChat: false, hasPlayground: true,
+    type: "lesson", difficulty: "intermediate", estimatedMinutes: 15,
+    prerequisites: ["6-1"], tags: ["实践", "项目"],
   },
   {
-    id: "6-3",
-    module: "第六章：动手做项目",
-    title: "做一个倒计时工具",
+    id: "6-3", module: "第六章：动手做项目", title: "做一个倒计时工具",
     description: "练习定时器、日期处理和界面更新",
-    content: `
-## 做一个倒计时工具
-
-这个项目帮你理解时间和定时器的概念。
-
-### 核心功能
-
-告诉 AI 你需要：
-1. 用户设定一个目标日期和时间
-2. 实时显示距离目标还有多少天、小时、分钟、秒
-3. 倒计时到达后显示提示文字
-4. 好看的卡片式布局
-
-### 推荐的 Prompt
-
-> 帮我做一个倒计时网页，要求：
-> - 用户可以输入目标日期和时间
-> - 实时显示剩余的天、小时、分钟、秒（每秒更新）
-> - 四个数字卡片分别显示天/时/分/秒
-> - 到达目标时间后显示"时间到！"并有动画效果
-> - 预设几个常用倒计时（比如元旦、春节）
-> - 现代简洁设计，大数字显示
-
-### 学到的技能
-
-- 日期和时间的处理
-- setInterval 定时器
-- 实时界面更新
-- CSS 动画效果
-
-### 进阶挑战
-
-- 添加多个倒计时同时显示
-- 倒计时结束播放提示音
-- 添加进度条显示百分比
-- 可以给每个倒计时命名
-
-### 常见误区
-
-> "倒计时不准怎么办？"——浏览器中的倒计时可能有 1-2 秒的误差，这是正常的。如果需要精确到毫秒级别的计时，需要更复杂的技术，入门阶段不需要纠结。
-
-### 要点总结
-
-- setInterval 用于定时更新
-- 日期计算注意时区和格式
-- 定时器用完记得清理
-`,
-    hasChat: false,
-    hasPlayground: true,
-    type: 'lesson' as const,
-    difficulty: 'intermediate' as const,
-    estimatedMinutes: 12,
-    prerequisites: ['6-2'],
-    tags: ['实践', '项目'],
+    content: c6_3, hasChat: false, hasPlayground: true,
+    type: "lesson", difficulty: "intermediate", estimatedMinutes: 12,
+    prerequisites: ["6-2"], tags: ["实践", "项目"],
   },
   {
-    id: "6-4",
-    module: "第六章：动手做项目",
-    title: "组合项目：个人作品集",
+    id: "6-4", module: "第六章：动手做项目", title: "组合项目：个人作品集",
     description: "将之前的项目组合成一个作品集页面",
-    content: `
-## 组合项目：个人作品集
-
-你已经完成了多个小项目，现在把它们整合到一个作品集页面里。
-
-### 什么是作品集？
-
-作品集就像一个在线展览馆，展示你做的所有项目。以后给别人看你的成果时，只需要发一个链接。
-
-### 推荐的结构
-
-告诉 AI：
-
-> 帮我做一个个人作品集网页，包含：
-> 1. 顶部个人介绍区（名字、一句话简介）
-> 2. 项目展示区，每个项目一个卡片，包含：
-> - 项目截图或图标
-> - 项目名称
-> - 简短描述（ 1-2 句话）
-> - "查看项目"按钮（链接到项目文件）
-> 3. 底部联系方式
-> 4. 整体采用卡片式布局，响应式设计
-
-### 发布你的作品集
-
-做好之后，用第 7 章学到的方法把它发布到网上。
-
-### 项目清单
-
-把你之前做的项目都加进去：
-- 个人主页
-- 待办清单
-- 倒计时工具
-- 以及任何你以后会做的项目
-
-### 要点总结
-
-- 作品集是展示你成果的最佳方式
-- 用卡片布局展示多个项目
-- 持续更新，你的作品集会越来越丰富
-`,
-    hasChat: false,
-    hasPlayground: true,
-    type: 'lesson' as const,
-    difficulty: 'intermediate' as const,
-    estimatedMinutes: 20,
-    prerequisites: ['6-3'],
-    tags: ['实践', '项目'],
+    content: c6_4, hasChat: false, hasPlayground: true,
+    type: "lesson", difficulty: "intermediate", estimatedMinutes: 20,
+    prerequisites: ["6-3"], tags: ["实践", "项目"],
   },
-  // ====== 第七章 ======
   {
-    id: "7-1",
-    module: "第七章：分享与发布",
-    title: "网站是怎么出现在互联网上的",
+    id: "7-1", module: "第七章：分享与发布", title: "网站是怎么出现在互联网上的",
     description: "理解托管、域名和部署的基本概念",
-    content: `
-## 网站是怎么出现在互联网上的
-
-你做了网页，但只有你自己能看。怎么让全世界都看到？
-
-### 三个核心概念
-
-1. **文件**——你的 HTML/CSS/JS 代码，这是网站的"内容"
-2. **托管**——把文件放到一台 24 小时开机的电脑上（叫"服务器"），这样别人随时能访问
-3. **域名**——服务器的地址，比如 dreamnight.net.cn，别人通过域名访问你的网站
-
-### 类比理解
-
-- 文件 = 你写的书
-- 托管 = 把书放到图书馆的书架上
-- 域名 = 图书馆的地址，别人按地址找到你的书
-
-### 免费托管服务
-
-| 服务 | 适合人群 | 特点 |
-|------|---------|------|
-| **GitHub Pages** | 静态网页 | 免费、简单、配合 GitHub 使用 |
-| **Vercel** | 各类项目 | 免费、一键部署、自动 HTTPS |
-| **Netlify** | 静态网页 | 免费、拖拽上传、简单 |
-
-### 要点总结
-
-- 托管 = 把文件放到服务器上
-- 域名 = 服务器的网址
-- GitHub Pages 是最简单的入门选择
-`,
-    hasChat: true,
-    hasPlayground: false,
-    type: 'lesson' as const,
-    difficulty: 'beginner' as const,
-    estimatedMinutes: 8,
-    prerequisites: ['6-4'],
-    tags: ['工具'],
+    content: c7_1, hasChat: true, hasPlayground: false,
+    type: "lesson", difficulty: "beginner", estimatedMinutes: 8,
+    prerequisites: ["6-4"], tags: ["工具"],
   },
   {
-    id: "7-2",
-    module: "第七章：分享与发布",
-    title: "用 GitHub Pages 免费发布你的网站",
+    id: "7-2", module: "第七章：分享与发布", title: "用 GitHub Pages 免费发布你的网站",
     description: "最简单的免费网站发布方式，手把手教学",
-    content: `
-## 用 GitHub Pages 免费发布你的网站
-
-不需要花钱， 10 分钟就能让全世界看到你的网页。
-
-### 第一步：注册 GitHub
-
-1. 打开 https://github.com
-2. 点击 Sign Up 注册账号
-3. 验证邮箱
-4. 登录后看到你的 Dashboard
-
-### 第二步：创建仓库
-
-1. 点击右上角的 "+" → New repository
-2. Repository name 填写：你的用户名.github.io
-（比如： sixtdreanight.github.io）
-3. 选择 Public（公开）
-4. 点击 Create repository
-
-### 第三步：上传文件
-
-1. 点击 "uploading an existing file"
-2. 把你的 index.html 拖进去
-3. 在 Commit message 里写 "第一次提交"
-4. 点击 Commit changes
-
-### 第四步：访问你的网站
-
-等待 1-2 分钟，打开浏览器访问：
-https://你的用户名.github.io
-
-你的网站上线了！把链接分享给朋友看看吧。
-
-### 如果想用 Vercel
-
-Vercel 更现代、更简单：
-
-1. 打开 https://vercel.com，用 GitHub 登录
-2. 点击 New Project
-3. 选择你的仓库
-4. 点击 Deploy
-5. 几分钟后你的网站就上线了，还会自动配置 HTTPS
-
-### 要点总结
-
-- GitHub Pages 完全免费
-- 仓库名必须是 用户名.github.io
-- 上传 index.html 就能访问
-- Vercel 是更现代的替代方案
-- 每次修改后重新上传，网站就会更新
-`,
-    hasChat: true,
-    hasPlayground: false,
-    type: 'lesson' as const,
-    difficulty: 'intermediate' as const,
-    estimatedMinutes: 15,
-    prerequisites: ['7-1'],
-    tags: ['工具', '实践'],
+    content: c7_2, hasChat: true, hasPlayground: false,
+    type: "lesson", difficulty: "intermediate", estimatedMinutes: 15,
+    prerequisites: ["7-1"], tags: ["工具", "实践"],
   },
 ];
 
@@ -1330,16 +201,12 @@ export function getLesson(id: string): Lesson | undefined {
 
 export function getNextLessonId(id: string): string | null {
   const idx = lessons.findIndex((l) => l.id === id);
-  if (idx >= 0 && idx < lessons.length - 1) {
-    return lessons[idx + 1].id;
-  }
+  if (idx >= 0 && idx < lessons.length - 1) return lessons[idx + 1].id;
   return null;
 }
 
 export function getPrevLessonId(id: string): string | null {
   const idx = lessons.findIndex((l) => l.id === id);
-  if (idx > 0) {
-    return lessons[idx - 1].id;
-  }
+  if (idx > 0) return lessons[idx - 1].id;
   return null;
 }
