@@ -28,10 +28,15 @@ export default function ChatInterface() {
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const scrollRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const isNearBottom = useRef(true);
 
   useEffect(() => {
-    scrollRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+    const el = containerRef.current;
+    if (!el) return;
+    if (isNearBottom.current) {
+      el.scrollTop = el.scrollHeight;
+    }
   }, [messages]);
 
   async function handleSubmit(e: React.FormEvent) {
@@ -99,7 +104,14 @@ export default function ChatInterface() {
         <span className="font-semibold text-sm">AI 学习助手</span>
       </div>
 
-      <div className="flex-1 overflow-y-auto p-4 space-y-4 min-h-[300px]">
+      <div
+        ref={containerRef}
+        onScroll={(e) => {
+          const el = e.currentTarget;
+          isNearBottom.current = el.scrollHeight - el.scrollTop - el.clientHeight < 80;
+        }}
+        className="flex-1 overflow-y-auto p-4 space-y-4 min-h-[300px]"
+      >
         {messages.map((msg, i) => (
           <div
             key={i}
@@ -133,7 +145,7 @@ export default function ChatInterface() {
             </div>
           </div>
         ))}
-        <div ref={scrollRef} />
+        <div />
       </div>
 
       <form
