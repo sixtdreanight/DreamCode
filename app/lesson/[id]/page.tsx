@@ -12,7 +12,7 @@ import ChatInterface from "@/components/ChatInterface";
 import PromptPlayground from "@/components/PromptPlayground";
 import LessonMeta from "@/components/LessonMeta";
 import Quiz from "@/components/Quiz";
-import { getQuizByLessonId } from "@/lib/quiz-data";
+import { getQuizByLessonId, getQuizById } from "@/lib/quiz-data";
 import ReactMarkdown from "react-markdown";
 import { ChevronLeft, ChevronRight, MessageCircle, Wand2 } from "lucide-react";
 
@@ -31,7 +31,7 @@ export default async function LessonPage({
 
   const nextId = getNextLessonId(id);
   const prevId = getPrevLessonId(id);
-  const quiz = lesson.quizId ? null : getQuizByLessonId(id);
+  const quiz = lesson.quizId ? getQuizById(lesson.quizId) : getQuizByLessonId(id);
   const content = getLessonContent(id);
 
   return (

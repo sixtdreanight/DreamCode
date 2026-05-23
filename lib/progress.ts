@@ -49,33 +49,33 @@ export function getLessonProgress(lessonId: string): LessonProgress {
   return p.lessons[lessonId] || { completed: false, quizCompleted: false, lastAccessedAt: '' }
 }
 
-export function markLessonAccessed(lessonId: string) {
+function updateProgress(lessonId: string, updater: (p: LessonProgress) => void) {
   const p = loadProgress()
   if (!p.lessons[lessonId]) {
     p.lessons[lessonId] = { completed: false, quizCompleted: false, lastAccessedAt: '' }
   }
-  p.lessons[lessonId].lastAccessedAt = new Date().toISOString()
+  updater(p.lessons[lessonId])
   saveProgress(p)
+}
+
+export function markLessonAccessed(lessonId: string) {
+  updateProgress(lessonId, (lesson) => {
+    lesson.lastAccessedAt = new Date().toISOString()
+  })
 }
 
 export function markLessonCompleted(lessonId: string) {
-  const p = loadProgress()
-  if (!p.lessons[lessonId]) {
-    p.lessons[lessonId] = { completed: false, quizCompleted: false, lastAccessedAt: '' }
-  }
-  p.lessons[lessonId].completed = true
-  p.lessons[lessonId].completedAt = new Date().toISOString()
-  saveProgress(p)
+  updateProgress(lessonId, (lesson) => {
+    lesson.completed = true
+    lesson.completedAt = new Date().toISOString()
+  })
 }
 
 export function saveQuizResult(lessonId: string, score: number) {
-  const p = loadProgress()
-  if (!p.lessons[lessonId]) {
-    p.lessons[lessonId] = { completed: false, quizCompleted: false, lastAccessedAt: '' }
-  }
-  p.lessons[lessonId].quizCompleted = true
-  p.lessons[lessonId].quizScore = score
-  saveProgress(p)
+  updateProgress(lessonId, (lesson) => {
+    lesson.quizCompleted = true
+    lesson.quizScore = score
+  })
 }
 
 export function getOverallProgress(total: number): { completed: number; percentage: number } {

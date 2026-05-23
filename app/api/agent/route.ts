@@ -1,6 +1,5 @@
 import { NextRequest } from "next/server";
-
-const SYSTEM_PROMPT = `你是帮零基础朋友学编程的搭档。说人话，讲短句，用大白话。别用"首先其次最后""值得注意的是""综上所述"这种模板词。要代码就给完整能跑的 HTML/CSS/JS，注释点到为止。对方零基础但别把 ta 当傻子。`;
+import { SYSTEM_PROMPT } from "@/lib/system-prompt";
 
 // Direct fetch to OpenAI-compatible APIs (DeepSeek etc.)
 async function handleOpenAICompatible(
