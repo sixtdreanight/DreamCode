@@ -100,6 +100,10 @@ scripts/
 
 Edit `lib/lessons.ts` to modify or add lessons. Content supports Markdown. / 编辑 `lib/lessons.ts` 即可修改或添加课程内容，支持 Markdown 格式。
 
+## Related / 相关项目
+
+- [myBlog](https://github.com/sixtdreanight/myBlog) — Author's personal blog, more articles on vibe coding
+
 ## License
 
 MIT
