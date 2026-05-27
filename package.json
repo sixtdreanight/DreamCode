@@ -2,6 +2,26 @@
   "name": "vibe-coding-agent",
   "version": "0.1.1",
   "private": true,
+  "description": "Interactive Vibe Coding crash course — 12 lessons with AI teaching assistant and code playground",
+  "author": "DreamNight",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sixtdreanight/vibe-coding-agent.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sixtdreanight/vibe-coding-agent/issues"
+  },
+  "homepage": "https://github.com/sixtdreanight/vibe-coding-agent#readme",
+  "keywords": [
+    "vibe-coding",
+    "education",
+    "ai",
+    "tutorial",
+    "nextjs",
+    "typescript",
+    "llm"
+  ],
   "scripts": {
     "dev": "next dev",
     "build": "next build",
