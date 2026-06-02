@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { lessons } from "@/lib/lessons";
-import { BookOpen, Sparkles, ArrowRight } from "lucide-react";
+import { BookOpen, Sparkles, ArrowRight, Clock, Users, Code2, Zap } from "lucide-react";
 import TotalProgress from "@/components/TotalProgress";
 
 export default function Home() {
@@ -13,76 +13,209 @@ export default function Home() {
     {} as Record<string, typeof lessons>
   );
 
+  const moduleEntries = Object.entries(modules);
+  const totalMinutes = lessons.reduce((sum, l) => sum + l.estimatedMinutes, 0);
+
   return (
     <div>
-      <header className="border-b border-edge bg-surface-alt">
-        <div className="max-w-[800px] mx-auto px-4 py-16 animate-fade-in">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center">
-              <Sparkles className="w-5 h-5 text-accent" />
-            </div>
-            <h1 className="text-4xl font-bold">梦夜的编程课</h1>
+      {/* ── Hero ── */}
+      <header className="relative overflow-hidden">
+        {/* Background gradient */}
+        <div className="absolute inset-0 gradient-warm" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--color-accent-glow)_0%,_transparent_60%)]" />
+
+        <div className="relative max-w-[1000px] mx-auto px-6 pt-24 pb-20 md:pt-32 md:pb-28">
+          {/* Badge */}
+          <div className="animate-slide-up inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface/60 backdrop-blur border border-edge text-sm text-muted mb-8">
+            <Zap className="w-3.5 h-3.5 text-accent" />
+            <span>零基础 · 7 个章节 · 22 节课</span>
           </div>
-          <p className="text-muted text-lg max-w-2xl">
-            零基础也能学会编程。不需要背语法、不需要写复杂代码，只要学会和 AI
-            对话，你就能创造出自己的网站、工具和应用。
+
+          {/* Main headline */}
+          <h1 className="font-display text-hero font-black leading-none mb-6 animate-reveal">
+            用 AI 创造，
+            <br />
+            <span className="text-accent">不需要会写代码</span>
+          </h1>
+
+          <p className="text-lg md:text-xl text-muted max-w-xl leading-relaxed mb-8 animate-slide-up stagger-2">
+            告别死记硬背。在这门课里，你只需要学会<strong className="text-accent font-semibold">和 AI 对话</strong>，
+            就能做出属于自己的网站、工具和应用。编程从未如此简单。
           </p>
-          <div className="mt-4 max-w-xs">
-            <TotalProgress total={lessons.length} />
+
+          {/* CTA + stats */}
+          <div className="flex flex-wrap items-center gap-6 animate-slide-up stagger-3">
+            <Link
+              href={`/lesson/${lessons[0].id}`}
+              className="inline-flex items-center gap-2 px-8 py-3.5 bg-accent text-white rounded-xl font-semibold text-lg shadow-glow hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
+            >
+              <Sparkles className="w-5 h-5" />
+              开始学习，免费
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+
+            <div className="flex items-center gap-6 text-sm text-muted">
+              <span className="inline-flex items-center gap-1.5">
+                <Clock className="w-4 h-4" />
+                约 {totalMinutes} 分钟
+              </span>
+              <span className="inline-flex items-center gap-1.5">
+                <Users className="w-4 h-4" />
+                适合零基础
+              </span>
+            </div>
           </div>
+
+          {/* Decorative floating elements */}
+          <div className="hidden md:block absolute right-8 top-1/2 -translate-y-1/2 opacity-20">
+            <Code2 className="w-48 h-48 text-accent" />
+          </div>
+          <div
+            className="hidden md:block absolute right-32 top-1/4 w-24 h-24 rounded-3xl border-2 border-accent/20 animate-float"
+            style={{ animationDelay: "0s" }}
+          />
+          <div
+            className="hidden md:block absolute right-16 bottom-1/4 w-16 h-16 rounded-2xl border border-accent/15 animate-float"
+            style={{ animationDelay: "2s" }}
+          />
         </div>
       </header>
 
-      <main className="max-w-[800px] mx-auto px-4 py-16 space-y-8">
-        <section>
-          <div className="mb-8 font-bold uppercase tracking-widest text-accent text-sm">
-            课程大纲
-          </div>
-          <div className="grid gap-4 md:grid-cols-2 md:gap-6">
-            {Object.entries(modules).map(([moduleName, moduleLessons], idx) => (
+      {/* ── Progress bar ── */}
+      <div className="max-w-[1000px] mx-auto px-6 -mt-6 relative z-10">
+        <div className="card p-6 animate-slide-up stagger-4">
+          <TotalProgress total={lessons.length} />
+        </div>
+      </div>
+
+      {/* ── Course Outline ── */}
+      <main className="max-w-[1000px] mx-auto px-6 py-section">
+        {/* Section header */}
+        <div className="mb-12 animate-fade-in">
+          <div className="decorative-line mb-4" />
+          <h2 className="font-display text-3xl md:text-4xl font-bold">课程大纲</h2>
+          <p className="text-muted mt-3 text-lg">
+            七个章节，从认识 AI 编程到做出你自己的作品
+          </p>
+        </div>
+
+        {/* Bento grid — varying card layouts */}
+        <div className="space-y-8">
+          {moduleEntries.map(([moduleName, moduleLessons], idx) => {
+            const isWide = idx === 0 || idx === 5; // First & projects chapter get emphasis
+            return (
               <div
                 key={moduleName}
-                className="rounded-lg bg-surface-alt p-6 animate-slide-up"
-                style={{ animationDelay: `${idx * 80}ms` }}
+                className={`card p-6 md:p-8 animate-reveal ${isWide ? "md:col-span-2 border-l-4 border-l-accent" : ""}`}
+                style={{ animationDelay: `${idx * 100}ms` }}
               >
-                <div className="flex items-center gap-2 mb-3">
-                  <span className="w-8 h-8 rounded-full bg-accent/10 text-accent flex items-center justify-center text-sm font-bold">
+                {/* Module header */}
+                <div className="flex items-center gap-4 mb-6">
+                  <span className="w-10 h-10 rounded-xl bg-accent text-white flex items-center justify-center text-lg font-bold shadow-glow shrink-0">
                     {idx + 1}
                   </span>
-                  <h2 className="font-bold">{moduleName}</h2>
+                  <div>
+                    <h3 className="font-display text-xl font-bold">{moduleName}</h3>
+                    <p className="text-xs text-muted mt-0.5">
+                      {moduleLessons.length} 节课
+                      {" · "}
+                      约 {moduleLessons.reduce((s, l) => s + l.estimatedMinutes, 0)} 分钟
+                    </p>
+                  </div>
                 </div>
-                <ul className="space-y-1">
-                  {moduleLessons.map((lesson) => (
-                    <li key={lesson.id}>
-                      <Link
-                        href={`/lesson/${lesson.id}`}
-                        className="flex items-center gap-2 p-2 -mx-2 rounded-lg text-sm text-muted hover:text-accent transition-colors group"
-                      >
-                        <BookOpen className="w-4 h-4 shrink-0 opacity-50 group-hover:opacity-100 transition-opacity" />
-                        <span>{lesson.title}</span>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </section>
 
-        <div className="pt-8 border-t border-edge text-center animate-fade-in">
-          <p className="text-muted mb-4">建议按顺序学习，也可以跳到感兴趣的部分</p>
-          <Link
-            href={`/lesson/${lessons[0].id}`}
-            className="inline-flex items-center gap-1 text-sm font-medium text-accent hover:opacity-80 transition-opacity"
-          >
-            开始学习第一课
-            <ArrowRight className="w-4 h-4" />
-          </Link>
+                {/* Lesson list */}
+                <div className={`grid gap-3 ${isWide ? "md:grid-cols-2" : ""}`}>
+                  {moduleLessons.map((lesson, li) => (
+                    <Link
+                      key={lesson.id}
+                      href={`/lesson/${lesson.id}`}
+                      className="flex items-start gap-3 p-3 -mx-1 rounded-xl hover:bg-accent-soft/50 transition-all duration-200 group/item"
+                      style={{ animationDelay: `${idx * 100 + li * 60}ms` }}
+                    >
+                      {/* Icon */}
+                      <span
+                        className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 mt-0.5 transition-colors ${
+                          lesson.type === "project"
+                            ? "bg-warning-soft text-warning"
+                            : "bg-accent-soft text-accent"
+                        }`}
+                      >
+                        {lesson.type === "project" ? (
+                          <Code2 className="w-4 h-4" />
+                        ) : (
+                          <BookOpen className="w-4 h-4" />
+                        )}
+                      </span>
+
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-center gap-2">
+                          <span className="font-medium text-sm group-hover/item:text-accent transition-colors truncate">
+                            {lesson.title}
+                          </span>
+                          {lesson.type === "project" && (
+                            <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-warning-soft text-warning font-medium shrink-0">
+                              实战
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-xs text-muted mt-0.5 line-clamp-1">
+                          {lesson.description}
+                        </p>
+                      </div>
+
+                      {/* Difficulty badge */}
+                      <span
+                        className={`hidden sm:inline-block text-[10px] px-2 py-0.5 rounded-full font-medium shrink-0 mt-1 ${
+                          lesson.difficulty === "beginner"
+                            ? "bg-success-soft text-success"
+                            : lesson.difficulty === "intermediate"
+                            ? "bg-warning-soft text-warning"
+                            : "bg-accent-soft text-accent"
+                        }`}
+                      >
+                        {{ beginner: "入门", intermediate: "进阶", advanced: "高级" }[lesson.difficulty]}
+                      </span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* CTA at bottom */}
+        <div className="mt-16 text-center animate-fade-in">
+          <div className="card p-10 md:p-16 gradient-warm border-accent/20">
+            <Sparkles className="w-10 h-10 text-accent mx-auto mb-4" />
+            <h2 className="font-display text-2xl md:text-3xl font-bold mb-3">
+              准备好开始你的编程之旅了吗？
+            </h2>
+            <p className="text-muted mb-6 max-w-md mx-auto">
+              不需要任何基础，不需要安装复杂软件。
+              打开浏览器，跟着课程，用 AI 创造你的第一个作品。
+            </p>
+            <Link
+              href={`/lesson/${lessons[0].id}`}
+              className="inline-flex items-center gap-2 px-8 py-3.5 bg-accent text-white rounded-xl font-semibold text-lg shadow-glow hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
+            >
+              开始第一课
+              <ArrowRight className="w-5 h-5" />
+            </Link>
+          </div>
         </div>
       </main>
 
-      <footer className="border-t border-edge py-8 text-center text-sm text-muted">
-        梦夜的编程课 — 让每个人都能创造
+      {/* ── Footer ── */}
+      <footer className="border-t border-edge py-10 text-center">
+        <p className="text-sm text-muted">
+          <span className="font-display font-bold text-accent">梦夜的编程课</span>
+          <span className="mx-2 text-faint">—</span>
+          让每个人都能创造
+        </p>
+        <p className="text-xs text-faint mt-2">
+          用 AI 的力量，把想法变成现实
+        </p>
       </footer>
     </div>
   );

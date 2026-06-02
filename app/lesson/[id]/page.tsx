@@ -14,7 +14,7 @@ import LessonMeta from "@/components/LessonMeta";
 import Quiz from "@/components/Quiz";
 import { getQuizByLessonId, getQuizById } from "@/lib/quiz-data";
 import ReactMarkdown from "react-markdown";
-import { ChevronLeft, ChevronRight, MessageCircle, Wand2 } from "lucide-react";
+import { ChevronLeft, ChevronRight, MessageCircle, Wand2, Sparkles } from "lucide-react";
 
 export function generateStaticParams() {
   return lessons.map((lesson) => ({ id: lesson.id }));
@@ -38,60 +38,93 @@ export default async function LessonPage({
     <div className="flex min-h-screen">
       <LessonNavigator />
       <main className="flex-1 flex flex-col min-w-0">
-        <div className="flex-1 max-w-[800px] mx-auto w-full px-4 py-16 animate-fade-in">
-          <div className="mb-2 text-sm text-muted animate-slide-up">
-            {lesson.module}
+        <div className="flex-1 max-w-[800px] mx-auto w-full px-6 py-12 md:py-16">
+          {/* Module breadcrumb */}
+          <div className="text-sm text-muted mb-3 animate-slide-up">
+            <Link href="/" className="hover:text-accent transition-colors">课程</Link>
+            <span className="mx-2 text-faint">/</span>
+            <span>{lesson.module}</span>
           </div>
-          <h1 className="text-4xl font-bold mb-3 animate-slide-up">
+
+          {/* Title */}
+          <h1 className="font-display text-4xl md:text-5xl font-black leading-tight mb-4 animate-reveal">
             {lesson.title}
           </h1>
-          <div className="mb-8">
+
+          {/* Meta */}
+          <div className="mb-10 animate-slide-up stagger-2">
             <LessonMeta lesson={lesson} />
           </div>
 
-          <div className="prose dark:prose-invert max-w-none mb-10 animate-slide-up">
+          {/* Lesson content */}
+          <div className="prose dark:prose-invert max-w-none mb-12 animate-slide-up stagger-3">
             <ReactMarkdown>{content}</ReactMarkdown>
           </div>
 
+          {/* Quiz section */}
           {quiz && (
-            <div className="mb-8 animate-slide-up space-y-3">
-              <div className="font-bold uppercase tracking-widest text-accent text-sm">课后测验</div>
+            <div className="mb-12 animate-slide-up space-y-4">
+              <div className="flex items-center gap-2.5">
+                <span className="w-8 h-8 rounded-lg bg-accent-soft flex items-center justify-center">
+                  <Sparkles className="w-4 h-4 text-accent" />
+                </span>
+                <div>
+                  <span className="font-display font-bold text-lg text-accent">课后测验</span>
+                  <p className="text-xs text-muted">检验一下你的学习成果</p>
+                </div>
+              </div>
               <Quiz quizId={quiz.id} />
             </div>
           )}
 
+          {/* AI Chat */}
           {lesson.hasChat && (
-            <div className="mb-8 animate-slide-up space-y-3">
-              <div className="flex items-center gap-2">
-                <MessageCircle className="w-5 h-5 text-accent" />
-                <span className="font-bold uppercase tracking-widest text-accent text-sm">AI 助教</span>
+            <div className="mb-12 animate-slide-up space-y-4">
+              <div className="flex items-center gap-2.5">
+                <span className="w-8 h-8 rounded-lg bg-accent-soft flex items-center justify-center">
+                  <MessageCircle className="w-4 h-4 text-accent" />
+                </span>
+                <div>
+                  <span className="font-display font-bold text-lg text-accent">AI 助教</span>
+                  <p className="text-xs text-muted">有问题随时问，AI 助教为你解答</p>
+                </div>
               </div>
-              <div className="h-[500px]">
+              <div className="h-[520px]">
                 <ChatInterface />
               </div>
             </div>
           )}
 
+          {/* Prompt Playground */}
           {lesson.hasPlayground && (
-            <div className="mb-8 animate-slide-up space-y-3">
-              <div className="flex items-center gap-2">
-                <Wand2 className="w-5 h-5 text-accent" />
-                <span className="font-bold uppercase tracking-widest text-accent text-sm">Prompt Playground</span>
+            <div className="mb-12 animate-slide-up space-y-4">
+              <div className="flex items-center gap-2.5">
+                <span className="w-8 h-8 rounded-lg bg-accent-soft flex items-center justify-center">
+                  <Wand2 className="w-4 h-4 text-accent" />
+                </span>
+                <div>
+                  <span className="font-display font-bold text-lg text-accent">动手实践</span>
+                  <p className="text-xs text-muted">描述你想要的效果，AI 帮你生成代码</p>
+                </div>
               </div>
-              <div className="h-[600px]">
+              <div className="h-[640px]">
                 <PromptPlayground />
               </div>
             </div>
           )}
 
+          {/* Navigation */}
           <div className="flex items-center justify-between pt-8 border-t border-edge animate-fade-in">
             {prevId ? (
               <Link
                 href={`/lesson/${prevId}`}
-                className="flex items-center gap-1 text-sm text-muted hover:text-accent transition-colors"
+                className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm text-muted hover:text-accent hover:bg-accent-soft transition-all group"
               >
-                <ChevronLeft className="w-4 h-4" />
-                上一课
+                <ChevronLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+                <div className="text-right">
+                  <div className="text-[10px] text-faint">上一课</div>
+                  <div className="font-medium">{getLesson(prevId)?.title}</div>
+                </div>
               </Link>
             ) : (
               <div />
@@ -99,18 +132,21 @@ export default async function LessonPage({
             {nextId ? (
               <Link
                 href={`/lesson/${nextId}`}
-                className="flex items-center gap-1 text-sm font-medium text-accent hover:opacity-80 transition-colors"
+                className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium text-accent hover:bg-accent-soft transition-all group"
               >
-                下一课
-                <ChevronRight className="w-4 h-4" />
+                <div>
+                  <div className="text-[10px] text-faint">下一课</div>
+                  <div>{getLesson(nextId)?.title}</div>
+                </div>
+                <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
             ) : (
               <Link
                 href="/"
-                className="flex items-center gap-1 text-sm font-medium text-accent hover:opacity-80 transition-colors"
+                className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium text-accent hover:bg-accent-soft transition-all group"
               >
                 回到首页
-                <ChevronRight className="w-4 h-4" />
+                <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
             )}
           </div>

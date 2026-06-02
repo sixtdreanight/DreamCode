@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Wand2, Copy, Check, Code2 } from "lucide-react";
+import { Wand2, Copy, Check, Code2, Play } from "lucide-react";
 
 export default function PromptPlayground() {
   const [prompt, setPrompt] = useState("");
@@ -67,34 +67,57 @@ export default function PromptPlayground() {
     .trim();
 
   return (
-    <div className="flex flex-col h-full border border-edge rounded-lg bg-surface overflow-hidden animate-fade-in">
-      <div className="px-4 py-3 border-b border-edge bg-surface-alt flex items-center gap-2 shrink-0">
-        <Wand2 className="w-4 h-4 text-accent" />
-        <span className="font-semibold text-sm">Prompt Playground</span>
+    <div className="flex flex-col h-full rounded-xl border border-edge bg-surface overflow-hidden shadow-md">
+      {/* Header */}
+      <div className="px-5 py-3.5 border-b border-edge bg-surface-alt flex items-center gap-2.5 shrink-0">
+        <span className="w-8 h-8 rounded-lg bg-accent-soft flex items-center justify-center">
+          <Wand2 className="w-4 h-4 text-accent" />
+        </span>
+        <div>
+          <span className="font-semibold text-sm">Prompt Playground</span>
+          <span className="text-[10px] text-muted ml-2">动手试试</span>
+        </div>
       </div>
 
-      <div className="p-4 space-y-3 shrink-0">
-        <textarea
-          value={prompt}
-          onChange={(e) => setPrompt(e.target.value)}
-          placeholder="描述你想要做的网页，比如：帮我做一个个人介绍页面..."
-          className="w-full h-24 px-4 py-3 rounded-lg border border-edge bg-surface text-sm resize-none focus:outline-none focus:ring-2 focus:ring-accent/50 transition-shadow"
-        />
+      {/* Input area */}
+      <div className="p-4 space-y-3 shrink-0 border-b border-edge/50">
+        <div className="relative">
+          <textarea
+            value={prompt}
+            onChange={(e) => setPrompt(e.target.value)}
+            placeholder="描述你想要做的网页，比如：帮我做一个带有倒计时功能的番茄钟..."
+            className="w-full h-28 px-4 py-3.5 rounded-xl border border-edge bg-surface-alt text-sm resize-none focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent/50 focus:bg-surface transition-all placeholder:text-faint"
+          />
+          {!prompt.trim() && (
+            <div className="absolute bottom-3 left-4 right-4 flex flex-wrap gap-1.5">
+              {["番茄钟", "个人主页", "计算器", "待办清单"].map((example) => (
+                <button
+                  key={example}
+                  onClick={() => setPrompt(`帮我做一个${example}`)}
+                  className="text-[10px] px-2 py-1 rounded-md bg-surface border border-edge text-muted hover:text-accent hover:border-accent/30 transition-colors"
+                >
+                  "{example}"
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+
         <div className="flex items-center justify-between">
-          <span className="text-xs text-muted">例如："帮我做一个番茄钟"</span>
+          <span className="text-xs text-faint">提示：描述越具体，生成效果越好</span>
           <button
             onClick={generate}
             disabled={loading || !prompt.trim()}
-            className="px-5 py-2 bg-accent/10 text-accent rounded-lg text-sm font-medium hover:bg-accent/20 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100 flex items-center gap-2 transition-all"
+            className="px-5 py-2.5 bg-accent text-white rounded-xl text-sm font-semibold hover:shadow-lg active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed disabled:active:scale-100 flex items-center gap-2 transition-all"
           >
             {loading ? (
-              <span className="flex items-center gap-2">
-                <span className="w-4 h-4 border-2 border-accent/30 border-t-accent rounded-full animate-spin" />
+              <>
+                <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                 生成中...
-              </span>
+              </>
             ) : (
               <>
-                <Wand2 className="w-4 h-4" />
+                <Play className="w-4 h-4" />
                 生成代码
               </>
             )}
@@ -102,26 +125,43 @@ export default function PromptPlayground() {
         </div>
       </div>
 
+      {/* Code output */}
       {cleanCode && (
-        <div className="flex-1 min-h-[200px] border-t border-edge flex flex-col animate-slide-up">
-          <div className="flex items-center justify-between px-4 py-2 bg-surface-alt border-b border-edge shrink-0">
-            <div className="flex items-center gap-2 text-sm text-muted">
-              <Code2 className="w-4 h-4" />
+        <div className="flex-1 min-h-[200px] flex flex-col animate-scale-in">
+          <div className="flex items-center justify-between px-4 py-2.5 bg-surface-alt border-b border-edge shrink-0">
+            <div className="flex items-center gap-2 text-xs text-muted">
+              <Code2 className="w-3.5 h-3.5" />
               生成的代码
             </div>
-            <button
-              onClick={copyCode}
-              className="flex items-center gap-1 text-xs text-muted hover:text-accent transition-colors"
-            >
-              {copied ? (
-                <Check className="w-3.5 h-3.5" />
-              ) : (
-                <Copy className="w-3.5 h-3.5" />
-              )}
-              {copied ? "已复制" : "复制"}
-            </button>
+            <div className="flex items-center gap-3">
+              {/* Preview button */}
+              <button
+                onClick={() => {
+                  const w = window.open("", "_blank");
+                  if (w) {
+                    w.document.write(cleanCode);
+                    w.document.close();
+                  }
+                }}
+                className="flex items-center gap-1 text-xs text-muted hover:text-accent transition-colors"
+              >
+                <Play className="w-3 h-3" />
+                预览
+              </button>
+              <button
+                onClick={copyCode}
+                className="flex items-center gap-1 text-xs text-muted hover:text-accent transition-colors"
+              >
+                {copied ? (
+                  <Check className="w-3.5 h-3.5 text-success" />
+                ) : (
+                  <Copy className="w-3.5 h-3.5" />
+                )}
+                {copied ? "已复制" : "复制"}
+              </button>
+            </div>
           </div>
-          <pre className="flex-1 p-4 overflow-auto text-xs bg-zinc-950 text-zinc-100 font-mono leading-relaxed">
+          <pre className="flex-1 p-5 overflow-auto text-sm font-mono leading-relaxed bg-[#1e1b18] text-[#e8dcc8] selection:bg-accent/30">
             <code>{cleanCode}</code>
           </pre>
         </div>
