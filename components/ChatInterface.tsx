@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { Send, Bot, User, Sparkles } from "lucide-react";
+import SocraticToggle from "./chat/SocraticToggle";
 
 interface Message {
   role: "user" | "assistant";
@@ -28,8 +29,18 @@ export default function ChatInterface() {
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [socraticMode, setSocraticMode] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('vibe-coding-socratic') === 'true';
+    }
+    return false;
+  });
   const containerRef = useRef<HTMLDivElement>(null);
   const isNearBottom = useRef(true);
+
+  useEffect(() => {
+    localStorage.setItem('vibe-coding-socratic', String(socraticMode));
+  }, [socraticMode]);
 
   useEffect(() => {
     const el = containerRef.current;
@@ -52,7 +63,10 @@ export default function ChatInterface() {
       const response = await fetch("/api/agent", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: [...messages, userMsg] }),
+        body: JSON.stringify({
+          messages: [...messages, userMsg],
+          mode: socraticMode ? 'socratic' : 'direct',
+        }),
       });
 
       if (!response.ok || !response.body) {
@@ -104,12 +118,17 @@ export default function ChatInterface() {
         <span className="w-8 h-8 rounded-lg bg-accent-soft flex items-center justify-center">
           <Bot className="w-4 h-4 text-accent" />
         </span>
-        <div>
-          <span className="font-semibold text-sm">AI 学习助手</span>
-          <span className="text-[10px] text-success ml-2 inline-flex items-center gap-1">
-            <span className="w-1.5 h-1.5 rounded-full bg-success" />
-            在线
-          </span>
+        <div className="flex-1">
+          <div className="flex items-center">
+            <span className="font-semibold text-sm">AI 学习助手</span>
+            <span className="text-[10px] text-success ml-2 inline-flex items-center gap-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-success" />
+              在线
+            </span>
+          </div>
+          <div className="mt-1">
+            <SocraticToggle value={socraticMode} onChange={setSocraticMode} />
+          </div>
         </div>
       </div>
 

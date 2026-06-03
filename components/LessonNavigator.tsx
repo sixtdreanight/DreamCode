@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { lessons } from "@/lib/lessons";
-import { BookOpen, Circle, Menu, X, ChevronRight, Sparkles } from "lucide-react";
+import { BookOpen, Circle, Menu, X, ChevronRight, Sparkles, FolderOpen, BarChart3 } from "lucide-react";
 import { loadProgress } from "@/lib/progress";
 
 export default function LessonNavigator() {
@@ -130,13 +130,27 @@ export default function LessonNavigator() {
       </div>
 
       {/* Footer */}
-      <div className="p-4 border-t border-edge shrink-0">
+      <div className="p-4 border-t border-edge shrink-0 space-y-1.5">
+        <Link
+          href="/dashboard"
+          className="flex items-center justify-center gap-1.5 text-xs text-muted hover:text-accent transition-colors py-1.5 rounded-lg hover:bg-surface"
+        >
+          <BarChart3 className="w-3.5 h-3.5" />
+          学习数据
+        </Link>
+        <Link
+          href="/showcase"
+          className="flex items-center justify-center gap-1.5 text-xs text-muted hover:text-accent transition-colors py-1.5 rounded-lg hover:bg-surface"
+        >
+          <FolderOpen className="w-3.5 h-3.5" />
+          我的作品
+        </Link>
         <Link
           href="/"
-          className="flex items-center justify-center gap-1.5 text-xs text-muted hover:text-accent transition-colors"
+          className="flex items-center justify-center gap-1.5 text-xs text-muted hover:text-accent transition-colors py-1.5 rounded-lg hover:bg-surface"
         >
           <BookOpen className="w-3.5 h-3.5" />
-          回到课程首页
+          课程首页
         </Link>
       </div>
     </>

@@ -1,5 +1,6 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Noto_Sans_SC, Noto_Serif_SC, JetBrains_Mono } from "next/font/google";
+import AppShell from "./app-shell";
 import "./globals.css";
 
 const notoSansSC = Noto_Sans_SC({
@@ -23,6 +24,16 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "梦夜的编程课",
   description: "零基础学会用 AI 编程，让创意变成现实",
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    title: "梦夜的编程课",
+    statusBarStyle: "default",
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#faf7f2",
 };
 
 export default function RootLayout({
@@ -43,7 +54,7 @@ export default function RootLayout({
           <span className="text-accent">&larr;</span>
           返回博客
         </a>
-        {children}
+        <AppShell>{children}</AppShell>
       </body>
     </html>
   );

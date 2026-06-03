@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server";
-import { SYSTEM_PROMPT } from "@/lib/system-prompt";
+import { SYSTEM_PROMPT, SOCRATIC_SYSTEM_PROMPT } from "@/lib/system-prompt";
 
 // ---- 速率限制 ----
 const RATE_WINDOW_MS = 60_000; // 1 分钟窗口
@@ -15,23 +15,30 @@ function checkRateLimit(ip: string): boolean {
   }
   if (entry.count >= MAX_REQUESTS_PER_WINDOW) return false;
   entry.count++;
+  // Periodic cleanup of stale entries
+  if (Math.random() < 0.01) {
+    for (const [key, val] of rateMap) {
+      if (now >= val.resetAt) rateMap.delete(key);
+    }
+  }
   return true;
 }
 
 // ---- 允许的 baseURL 白名单（防 SSRF） ----
-const ALLOWED_BASE_URLS = [
-  "https://api.deepseek.com",
-  "https://api.deepseek.com/v1",
-  "https://api.openai.com",
-  "https://api.openai.com/v1",
-  "https://api.anthropic.com",
-];
+const ALLOWED_HOSTNAMES = new Set([
+  "api.deepseek.com",
+  "api.openai.com",
+  "api.anthropic.com",
+]);
 
 function validateBaseURL(url: string): boolean {
-  // 仅允许 HTTPS
-  if (!url.startsWith("https://")) return false;
-  // 检查是否在白名单中（以白名单前缀匹配）
-  return ALLOWED_BASE_URLS.some((allowed) => url.startsWith(allowed));
+  try {
+    const parsed = new URL(url);
+    if (parsed.protocol !== "https:") return false;
+    return ALLOWED_HOSTNAMES.has(parsed.hostname);
+  } catch {
+    return false;
+  }
 }
 
 // ---- 消息验证 ----
@@ -70,13 +77,14 @@ async function handleOpenAICompatible(
   baseURL: string,
   model: string,
   messages: { role: string; content: string }[],
+  systemPrompt: string,
 ) {
   const url = baseURL.replace(/\/+$/, "") + "/chat/completions";
 
   const body = JSON.stringify({
     model,
     messages: [
-      { role: "system", content: SYSTEM_PROMPT },
+      { role: "system", content: systemPrompt },
       ...messages.map((m) => ({ role: m.role, content: m.content })),
     ],
     stream: true,
@@ -196,13 +204,15 @@ export async function POST(req: NextRequest) {
 
     const body = await req.json();
     const messages = validateMessages(body.messages);
+    const mode = body.mode === 'socratic' ? 'socratic' : 'direct';
+    const activePrompt = mode === 'socratic' ? SOCRATIC_SYSTEM_PROMPT : SYSTEM_PROMPT;
 
     if (provider === "openai-compatible" || provider === "openai") {
       const openaiBaseURL =
         provider === "openai"
           ? "https://api.openai.com/v1"
           : baseURL;
-      return handleOpenAICompatible(apiKey, openaiBaseURL, model, messages);
+      return handleOpenAICompatible(apiKey, openaiBaseURL, model, messages, activePrompt);
     }
 
     // Anthropic
@@ -213,7 +223,7 @@ export async function POST(req: NextRequest) {
 
     const result = streamText({
       model: languageModel,
-      system: SYSTEM_PROMPT,
+      system: activePrompt,
       messages: messages.map((m) => ({
         role: m.role as "user" | "assistant",
         content: m.content,

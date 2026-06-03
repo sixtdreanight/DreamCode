@@ -1,13 +1,20 @@
 "use client";
 
 import { useState } from "react";
-import { Wand2, Copy, Check, Code2, Play } from "lucide-react";
+import { Wand2, Copy, Check, Code2, Play, Sparkles, Save, FolderOpen } from "lucide-react";
+import CodeReview from "./playground/CodeReview";
+import { saveProject } from "@/lib/projects";
+import { emitGameEvent } from "@/lib/events";
+import Link from "next/link";
 
 export default function PromptPlayground() {
   const [prompt, setPrompt] = useState("");
   const [code, setCode] = useState("");
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [showReview, setShowReview] = useState(false);
+  const [saved, setSaved] = useState(false);
+  const [projectTitle, setProjectTitle] = useState('');
 
   async function generate() {
     if (!prompt.trim()) return;
@@ -48,11 +55,29 @@ export default function PromptPlayground() {
         fullCode += decoder.decode(value, { stream: true });
         setCode(fullCode);
       }
+
+      // Fire playground event for gamification
+      import('@/lib/events').then(({ emitGameEvent }) => {
+        emitGameEvent({ type: 'playground:generated' });
+      });
     } catch {
       setCode("<!-- 出错了，请检查 API Key 配置或稍后重试 -->");
     } finally {
       setLoading(false);
     }
+  }
+
+  function handleSave() {
+    if (!cleanCode) return;
+    saveProject({
+      title: projectTitle || prompt.slice(0, 30) || '未命名作品',
+      description: prompt.slice(0, 200),
+      code: cleanCode,
+      tags: [],
+    });
+    setSaved(true);
+    emitGameEvent({ type: 'playground:generated' });
+    setTimeout(() => setSaved(false), 3000);
   }
 
   function copyCode() {
@@ -137,16 +162,38 @@ export default function PromptPlayground() {
               {/* Preview button */}
               <button
                 onClick={() => {
-                  const w = window.open("", "_blank");
-                  if (w) {
-                    w.document.write(cleanCode);
-                    w.document.close();
-                  }
+                  const blob = new Blob([cleanCode], { type: 'text/html' });
+                  const url = URL.createObjectURL(blob);
+                  window.open(url, '_blank');
+                  setTimeout(() => URL.revokeObjectURL(url), 1000);
                 }}
                 className="flex items-center gap-1 text-xs text-muted hover:text-accent transition-colors"
               >
                 <Play className="w-3 h-3" />
                 预览
+              </button>
+              <button
+                onClick={handleSave}
+                className={`flex items-center gap-1 text-xs transition-colors ${
+                  saved ? 'text-success' : 'text-muted hover:text-accent'
+                }`}
+              >
+                {saved ? <Check className="w-3 h-3" /> : <Save className="w-3 h-3" />}
+                {saved ? '已保存' : '保存'}
+              </button>
+              <Link
+                href="/showcase"
+                className="flex items-center gap-1 text-xs text-muted hover:text-accent transition-colors"
+              >
+                <FolderOpen className="w-3 h-3" />
+                作品集
+              </Link>
+              <button
+                onClick={() => setShowReview(!showReview)}
+                className="flex items-center gap-1 text-xs text-muted hover:text-accent transition-colors"
+              >
+                <Sparkles className="w-3 h-3" />
+                AI 点评
               </button>
               <button
                 onClick={copyCode}
@@ -164,6 +211,13 @@ export default function PromptPlayground() {
           <pre className="flex-1 p-5 overflow-auto text-sm font-mono leading-relaxed bg-[#1e1b18] text-[#e8dcc8] selection:bg-accent/30">
             <code>{cleanCode}</code>
           </pre>
+        </div>
+      )}
+
+      {/* Code Review */}
+      {showReview && cleanCode && (
+        <div className="p-4 border-t border-edge">
+          <CodeReview code={cleanCode} onClose={() => setShowReview(false)} />
         </div>
       )}
     </div>

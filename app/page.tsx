@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { lessons } from "@/lib/lessons";
-import { BookOpen, Sparkles, ArrowRight, Clock, Users, Code2, Zap } from "lucide-react";
+import { BookOpen, Sparkles, ArrowRight, Clock, Users, Code2, Zap, FolderOpen, BarChart3, Eye } from "lucide-react";
 import TotalProgress from "@/components/TotalProgress";
+import Recommendations from "@/components/learning/Recommendations";
 
 export default function Home() {
   const modules = lessons.reduce(
@@ -85,6 +86,40 @@ export default function Home() {
       <div className="max-w-[1000px] mx-auto px-6 -mt-6 relative z-10">
         <div className="card p-6 animate-slide-up stagger-4">
           <TotalProgress total={lessons.length} />
+        </div>
+      </div>
+
+      {/* ── Quick nav ── */}
+      <div className="max-w-[1000px] mx-auto px-6 mt-4 relative z-10">
+        <div className="flex items-center gap-3 animate-slide-up stagger-5">
+          <Link
+            href="/showcase"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-surface-alt border border-edge text-sm text-muted hover:text-accent hover:border-accent/30 transition-all"
+          >
+            <FolderOpen className="w-4 h-4" />
+            我的作品
+          </Link>
+          <Link
+            href="/dashboard"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-surface-alt border border-edge text-sm text-muted hover:text-accent hover:border-accent/30 transition-all"
+          >
+            <BarChart3 className="w-4 h-4" />
+            学习数据
+          </Link>
+          <Link
+            href="/visualizations"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-surface-alt border border-edge text-sm text-muted hover:text-accent hover:border-accent/30 transition-all"
+          >
+            <Eye className="w-4 h-4" />
+            可视化演示
+          </Link>
+        </div>
+      </div>
+
+      {/* ── Recommendations ── */}
+      <div className="max-w-[1000px] mx-auto px-6 mt-6 relative z-10">
+        <div className="card p-6 animate-slide-up stagger-5">
+          <Recommendations limit={3} />
         </div>
       </div>
 

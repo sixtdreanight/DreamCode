@@ -12,6 +12,7 @@ export interface Lesson {
   tags: string[];
   quizId?: string;
   projectId?: string;
+  exerciseIds?: string[];
 }
 
 export const lessons: Lesson[] = [
@@ -63,6 +64,7 @@ export const lessons: Lesson[] = [
     hasChat: false, hasPlayground: true,
     type: "lesson", difficulty: "beginner", estimatedMinutes: 15,
     prerequisites: ["2-3"], tags: ["实践"],
+    exerciseIds: ["ex-3-1"],
   },
   {
     id: "3-2", module: "第三章：动手实践", title: "修改和优化",
@@ -70,6 +72,7 @@ export const lessons: Lesson[] = [
     hasChat: false, hasPlayground: true,
     type: "lesson", difficulty: "beginner", estimatedMinutes: 12,
     prerequisites: ["3-1"], tags: ["实践"],
+    exerciseIds: ["ex-3-2"],
   },
   {
     id: "3-3", module: "第三章：动手实践", title: "保存你的代码",
@@ -98,6 +101,7 @@ export const lessons: Lesson[] = [
     hasChat: true, hasPlayground: true,
     type: "lesson", difficulty: "intermediate", estimatedMinutes: 15,
     prerequisites: ["4-2"], tags: ["实践", "项目"],
+    exerciseIds: ["ex-4-3"],
   },
   {
     id: "5-1", module: "第五章：工具与准备工作", title: "AI 工具对比与选择",
@@ -133,6 +137,7 @@ export const lessons: Lesson[] = [
     hasChat: false, hasPlayground: true,
     type: "lesson", difficulty: "beginner", estimatedMinutes: 15,
     prerequisites: ["5-4"], tags: ["实践", "项目"],
+    exerciseIds: ["ex-6-1"],
   },
   {
     id: "6-2", module: "第六章：动手做项目", title: "做一个待办清单",
@@ -140,6 +145,7 @@ export const lessons: Lesson[] = [
     hasChat: false, hasPlayground: true,
     type: "lesson", difficulty: "intermediate", estimatedMinutes: 15,
     prerequisites: ["6-1"], tags: ["实践", "项目"],
+    exerciseIds: ["ex-6-2"],
   },
   {
     id: "6-3", module: "第六章：动手做项目", title: "做一个倒计时工具",
@@ -147,6 +153,7 @@ export const lessons: Lesson[] = [
     hasChat: false, hasPlayground: true,
     type: "lesson", difficulty: "intermediate", estimatedMinutes: 12,
     prerequisites: ["6-2"], tags: ["实践", "项目"],
+    exerciseIds: ["ex-6-3"],
   },
   {
     id: "6-4", module: "第六章：动手做项目", title: "组合项目：个人作品集",
