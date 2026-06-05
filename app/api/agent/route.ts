@@ -10,6 +10,12 @@ function checkRateLimit(ip: string): boolean {
   const now = Date.now();
   const entry = rateMap.get(ip);
   if (!entry || now >= entry.resetAt) {
+    // Periodic cleanup when map is large
+    if (rateMap.size > 10000) {
+      for (const [key, val] of rateMap) {
+        if (now >= val.resetAt) rateMap.delete(key);
+      }
+    }
     rateMap.set(ip, { count: 1, resetAt: now + RATE_WINDOW_MS });
     return true;
   }
@@ -158,16 +164,20 @@ async function handleOpenAICompatible(
 }
 
 export async function POST(req: NextRequest) {
-  // API 认证
+  // API 认证（必需，不再可选）
   const authToken = process.env.AI_API_AUTH_TOKEN;
-  if (authToken) {
-    const auth = req.headers.get("Authorization");
-    if (!auth || auth !== `Bearer ${authToken}`) {
-      return new Response(
-        JSON.stringify({ error: "Unauthorized" }),
-        { status: 401, headers: { "Content-Type": "application/json" } },
-      );
-    }
+  if (!authToken) {
+    return new Response(
+      JSON.stringify({ error: "Server not configured: AI_API_AUTH_TOKEN is required" }),
+      { status: 500, headers: { "Content-Type": "application/json" } },
+    );
+  }
+  const auth = req.headers.get("Authorization");
+  if (!auth || auth !== `Bearer ${authToken}`) {
+    return new Response(
+      JSON.stringify({ error: "Unauthorized" }),
+      { status: 401, headers: { "Content-Type": "application/json" } },
+    );
   }
 
   // 速率限制

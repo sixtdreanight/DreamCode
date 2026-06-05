@@ -13,9 +13,11 @@ export function middleware(request: NextRequest) {
   );
 
   // CSP: 仅允许本站 + API 必需的外部服务
+  // unsafe-eval 仅在开发模式下允许（Next.js dev 需要）
+  const isDev = process.env.NODE_ENV === "development";
   const csp = [
     "default-src 'self'",
-    "script-src 'self' 'unsafe-eval'",
+    isDev ? "script-src 'self' 'unsafe-eval'" : "script-src 'self'",
     "style-src 'self' 'unsafe-inline'",
     "img-src 'self' data: blob:",
     "font-src 'self'",
@@ -25,6 +27,15 @@ export function middleware(request: NextRequest) {
     "form-action 'self'",
   ].join("; ");
   response.headers.set("Content-Security-Policy", csp);
+
+  // CSRF: 校验 POST/PUT/DELETE 请求的 Origin
+  if (["POST", "PUT", "DELETE"].includes(request.method)) {
+    const origin = request.headers.get("origin");
+    const host = request.headers.get("host");
+    if (origin && host && !origin.endsWith(host)) {
+      return NextResponse.json({ error: "Invalid origin" }, { status: 403 });
+    }
+  }
 
   return response;
 }

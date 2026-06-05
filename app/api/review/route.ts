@@ -55,16 +55,20 @@ function validateBaseURL(url: string): boolean {
 }
 
 export async function POST(req: NextRequest) {
-  // API 认证（与 agent 路由一致的选项）
+  // API 认证（必需，不再可选）
   const authToken = process.env.AI_API_AUTH_TOKEN;
-  if (authToken) {
-    const auth = req.headers.get("Authorization");
-    if (!auth || auth !== `Bearer ${authToken}`) {
-      return new Response(
-        JSON.stringify({ error: "Unauthorized" }),
-        { status: 401, headers: { "Content-Type": "application/json" } },
-      );
-    }
+  if (!authToken) {
+    return new Response(
+      JSON.stringify({ error: "Server not configured: AI_API_AUTH_TOKEN is required" }),
+      { status: 500, headers: { "Content-Type": "application/json" } },
+    );
+  }
+  const auth = req.headers.get("Authorization");
+  if (!auth || auth !== `Bearer ${authToken}`) {
+    return new Response(
+      JSON.stringify({ error: "Unauthorized" }),
+      { status: 401, headers: { "Content-Type": "application/json" } },
+    );
   }
 
   const ip =
