@@ -29,15 +29,17 @@ export default function ChatInterface() {
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const [socraticMode, setSocraticMode] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return localStorage.getItem('vibe-coding-socratic') === 'true';
-    }
-    return false;
-  });
+  const [socraticMode, setSocraticMode] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const isNearBottom = useRef(true);
 
+  // Load saved socratic mode preference from localStorage after mount
+  useEffect(() => {
+    const saved = localStorage.getItem('vibe-coding-socratic');
+    if (saved === 'true') setSocraticMode(true);
+  }, []);
+
+  // Persist socratic mode changes
   useEffect(() => {
     localStorage.setItem('vibe-coding-socratic', String(socraticMode));
   }, [socraticMode]);

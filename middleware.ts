@@ -17,7 +17,7 @@ export function middleware(request: NextRequest) {
   const isDev = process.env.NODE_ENV === "development";
   const csp = [
     "default-src 'self'",
-    isDev ? "script-src 'self' 'unsafe-eval'" : "script-src 'self'",
+    isDev ? "script-src 'self' 'unsafe-eval' 'unsafe-inline'" : "script-src 'self' 'unsafe-inline'",
     "style-src 'self' 'unsafe-inline'",
     "img-src 'self' data: blob:",
     "font-src 'self'",

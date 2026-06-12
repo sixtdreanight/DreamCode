@@ -14,6 +14,7 @@ export default function SocraticToggle({ value, onChange }: SocraticToggleProps)
         直接回答
       </span>
       <button
+        type="button"
         onClick={() => onChange(!value)}
         role="switch"
         aria-checked={value}

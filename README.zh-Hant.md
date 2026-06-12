@@ -5,6 +5,7 @@
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![Next.js](https://img.shields.io/badge/Next.js-16-black)](https://nextjs.org/)
 [![CI](https://github.com/sixtdreanight/vibe-coding-agent/actions/workflows/ci.yml/badge.svg)](https://github.com/sixtdreanight/vibe-coding-agent/actions/workflows/ci.yml)
+[![線上體驗](https://socialistic.ai/api/embed/dreamcode-vibe-curriculum-6a796a?lang=zh)](https://socialistic.ai/zh/skill/dreamcode-vibe-curriculum-6a796a)
 
 一個面向零基礎學習者的 AI 輔助程式設計（Vibe Coding）互動教學網站。22 節課涵蓋 7 個章節，內建 AI 助教、遊戲化系統、Prompt Playground 可直接生成可執行的程式碼。
 
@@ -21,6 +22,15 @@
 - **PWA 支援** — 可安裝到桌面，支援離線使用
 - **多模型支援** — Claude、OpenAI、DeepSeek 及任意 OpenAI 相容介面
 - **AI 降級** — 主服務故障時自動切換到備用服務
+
+## 線上體驗
+
+無需安裝、無需設定 API Key——打開連結就能開始學習：
+
+[![在 Socialistic 上體驗](https://socialistic.ai/api/embed/dreamcode-vibe-curriculum-6a796a?lang=zh)](https://socialistic.ai/zh/skill/dreamcode-vibe-curriculum-6a796a)
+
+> 線上入口由 [@shesonglin](https://github.com/shesl-tinkerland) 貢獻。  
+> 官方站點：[learn.dreamnight.net.cn](https://learn.dreamnight.net.cn)
 
 ## 快速開始
 

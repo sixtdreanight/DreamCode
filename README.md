@@ -5,6 +5,7 @@
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![Next.js](https://img.shields.io/badge/Next.js-16-black)](https://nextjs.org/)
 [![CI](https://github.com/sixtdreanight/vibe-coding-agent/actions/workflows/ci.yml/badge.svg)](https://github.com/sixtdreanight/vibe-coding-agent/actions/workflows/ci.yml)
+[![Try Online](https://socialistic.ai/api/embed/dreamcode-vibe-curriculum-6a796a?lang=en)](https://socialistic.ai/en/skill/dreamcode-vibe-curriculum-6a796a)
 
 An interactive tutorial site that teaches absolute beginners how to code with AI assistance (Vibe Coding). 22 lessons across 7 chapters, built-in AI teaching assistant, gamification system, and a prompt playground that generates real HTML/CSS/JS.
 
@@ -21,6 +22,15 @@ An interactive tutorial site that teaches absolute beginners how to code with AI
 - **PWA support** — Installable, works offline
 - **Multi-model support** — Claude, OpenAI, DeepSeek, and any OpenAI-compatible API
 - **AI fallback** — Automatic switch to backup provider if primary fails
+
+## Try Online
+
+No install, no API key — open the link and start learning immediately:
+
+[![Try dreamcode-vibe-curriculum on Socialistic](https://socialistic.ai/api/embed/dreamcode-vibe-curriculum-6a796a?lang=en)](https://socialistic.ai/en/skill/dreamcode-vibe-curriculum-6a796a)
+
+> Online entry contributed by [@shesonglin](https://github.com/shesl-tinkerland).  
+> Official site: [learn.dreamnight.net.cn](https://learn.dreamnight.net.cn)
 
 ## Quick Start
 

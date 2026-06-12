@@ -5,6 +5,7 @@
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![Next.js](https://img.shields.io/badge/Next.js-16-black)](https://nextjs.org/)
 [![CI](https://github.com/sixtdreanight/vibe-coding-agent/actions/workflows/ci.yml/badge.svg)](https://github.com/sixtdreanight/vibe-coding-agent/actions/workflows/ci.yml)
+[![オンラインで試す](https://socialistic.ai/api/embed/dreamcode-vibe-curriculum-6a796a?lang=ja)](https://socialistic.ai/ja/skill/dreamcode-vibe-curriculum-6a796a)
 
 ゼロから学べる AI アシストプログラミング（Vibe Coding）のインタラクティブな学習サイトです。7 章 22 レッスンで段階的に学習でき、AI チューター、ゲーミフィケーションシステム、コードを直接生成できる Prompt Playground を備えています。
 
@@ -21,6 +22,15 @@
 - **PWA 対応** — インストール可能、オフライン動作対応
 - **マルチモデル対応** — Claude、OpenAI、DeepSeek 及び任意の OpenAI 互換インターフェース
 - **AI フォールバック** — メインプロバイダー障害時に自動でバックアップに切替
+
+## オンラインで試す
+
+インストール不要・API Key 不要——リンクを開くだけですぐに学習を始められます：
+
+[![Socialistic で試す](https://socialistic.ai/api/embed/dreamcode-vibe-curriculum-6a796a?lang=ja)](https://socialistic.ai/ja/skill/dreamcode-vibe-curriculum-6a796a)
+
+> オンライン入口は [@shesonglin](https://github.com/shesl-tinkerland) による提供です。  
+> 公式サイト：[learn.dreamnight.net.cn](https://learn.dreamnight.net.cn)
 
 ## クイックスタート
 
