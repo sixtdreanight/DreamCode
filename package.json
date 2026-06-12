@@ -1,8 +1,8 @@
 {
   "name": "vibe-coding-agent",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "private": true,
-  "description": "Interactive Vibe Coding crash course — 12 lessons with AI teaching assistant and code playground",
+  "description": "Interactive Vibe Coding crash course — 22 lessons with AI teaching assistant, gamification, and code playground",
   "author": "DreamNight",
   "license": "MIT",
   "repository": {
