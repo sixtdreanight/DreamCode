@@ -116,19 +116,28 @@ export async function POST(req: NextRequest) {
     if (provider === 'openai-compatible' || provider === 'openai') {
       const openaiBaseURL = provider === 'openai' ? 'https://api.openai.com/v1' : baseURL;
       const url = openaiBaseURL.replace(/\/+$/, '') + '/chat/completions';
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${apiKey}`,
-        },
-        body: JSON.stringify({
-          model,
-          messages: [{ role: 'user', content: reviewPrompt }],
-          stream: false,
-          max_tokens: 1024,
-        }),
-      });
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 30_000);
+
+      let response: Response;
+      try {
+        response = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${apiKey}`,
+          },
+          body: JSON.stringify({
+            model,
+            messages: [{ role: 'user', content: reviewPrompt }],
+            stream: false,
+            max_tokens: 1024,
+          }),
+          signal: controller.signal,
+        });
+      } finally {
+        clearTimeout(timeoutId);
+      }
       if (!response.ok) {
         const text = await response.text();
         throw new Error(`API 请求失败 (${response.status}): ${text.slice(0, 200)}`);
@@ -157,6 +166,12 @@ export async function POST(req: NextRequest) {
     });
   } catch (error) {
     console.error('Review API error:', error);
+    if (error instanceof Error && error.name === "AbortError") {
+      return new Response(JSON.stringify({ error: '审阅服务响应超时，请稍后重试' }), {
+        status: 504,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
     return new Response(JSON.stringify({ error: '审阅请求失败' }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },

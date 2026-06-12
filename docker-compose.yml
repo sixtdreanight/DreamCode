@@ -1,0 +1,22 @@
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - AI_PROVIDER=${AI_PROVIDER:-openai-compatible}
+      - AI_MODEL=${AI_MODEL:-deepseek-chat}
+      - AI_API_KEY=${AI_API_KEY}
+      - AI_BASE_URL=${AI_BASE_URL:-https://api.deepseek.com/v1}
+      - AI_API_AUTH_TOKEN=${AI_API_AUTH_TOKEN}
+      - AI_FALLBACK_PROVIDER=${AI_FALLBACK_PROVIDER:-}
+      - AI_FALLBACK_MODEL=${AI_FALLBACK_MODEL:-}
+      - AI_FALLBACK_API_KEY=${AI_FALLBACK_API_KEY:-}
+      - AI_FALLBACK_BASE_URL=${AI_FALLBACK_BASE_URL:-}
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000"]
+      interval: 30s
+      timeout: 5s
+      retries: 3

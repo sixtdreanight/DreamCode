@@ -97,14 +97,23 @@ async function handleOpenAICompatible(
     max_tokens: 4096,
   });
 
-  const response = await fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${apiKey}`,
-    },
-    body,
-  });
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 30_000);
+
+  let response: Response;
+  try {
+    response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${apiKey}`,
+      },
+      body,
+      signal: controller.signal,
+    });
+  } finally {
+    clearTimeout(timeoutId);
+  }
 
   if (!response.ok) {
     const text = await response.text();
@@ -163,8 +172,42 @@ async function handleOpenAICompatible(
   );
 }
 
+async function callAIService(
+  provider: string,
+  model: string,
+  apiKey: string,
+  baseURL: string,
+  messages: { role: string; content: string }[],
+  systemPrompt: string,
+) {
+  if (provider === "openai-compatible" || provider === "openai") {
+    const url =
+      provider === "openai" ? "https://api.openai.com/v1" : baseURL;
+    return handleOpenAICompatible(apiKey, url, model, messages, systemPrompt);
+  }
+
+  const { streamText, createTextStreamResponse } = await import("ai");
+  const { createAnthropic } = await import("@ai-sdk/anthropic");
+  const anthropic = createAnthropic({ apiKey });
+  const languageModel = anthropic(model);
+
+  const result = streamText({
+    model: languageModel,
+    system: systemPrompt,
+    messages: messages.map((m) => ({
+      role: m.role as "user" | "assistant",
+      content: m.content,
+    })),
+    maxOutputTokens: 4096,
+  });
+
+  return createTextStreamResponse({
+    textStream: result.textStream,
+    headers: { "Cache-Control": "no-cache" },
+  });
+}
+
 export async function POST(req: NextRequest) {
-  // API 认证（必需，不再可选）
   const authToken = process.env.AI_API_AUTH_TOKEN;
   if (!authToken) {
     return new Response(
@@ -180,7 +223,6 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // 速率限制
   const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim()
     || req.headers.get("x-real-ip")
     || "unknown";
@@ -191,62 +233,74 @@ export async function POST(req: NextRequest) {
     );
   }
 
+  // Clone request so body can be re-read for fallback
+  const reqClone = req.clone();
+
+  const provider = process.env.AI_PROVIDER || "openai-compatible";
+  const model = process.env.AI_MODEL || "deepseek-chat";
+  const apiKey = process.env.AI_API_KEY;
+  const baseURL = process.env.AI_BASE_URL || "https://api.deepseek.com/v1";
+
+  if (!apiKey) {
+    return new Response(
+      JSON.stringify({ error: "AI_API_KEY 未配置" }),
+      { status: 500, headers: { "Content-Type": "application/json" } },
+    );
+  }
+
+  if (provider === "openai-compatible" && !validateBaseURL(baseURL)) {
+    return new Response(
+      JSON.stringify({ error: "AI_BASE_URL 不在允许列表中" }),
+      { status: 400, headers: { "Content-Type": "application/json" } },
+    );
+  }
+
+  const body = await req.json();
+  const messages = validateMessages(body.messages);
+  const mode = body.mode === 'socratic' ? 'socratic' : 'direct';
+  const activePrompt = mode === 'socratic' ? SOCRATIC_SYSTEM_PROMPT : SYSTEM_PROMPT;
+
   try {
-    const provider = process.env.AI_PROVIDER || "openai-compatible";
-    const model = process.env.AI_MODEL || "deepseek-chat";
-    const apiKey = process.env.AI_API_KEY;
-    const baseURL = process.env.AI_BASE_URL || "https://api.deepseek.com/v1";
+    return await callAIService(provider, model, apiKey, baseURL, messages, activePrompt);
+  } catch (primaryError) {
+    console.error("Primary AI provider error:", primaryError);
 
-    if (!apiKey) {
+    const fallbackProvider = process.env.AI_FALLBACK_PROVIDER;
+    const fallbackModel = process.env.AI_FALLBACK_MODEL;
+    const fallbackApiKey = process.env.AI_FALLBACK_API_KEY;
+    const fallbackBaseURL = process.env.AI_FALLBACK_BASE_URL;
+
+    if (fallbackProvider && fallbackModel && fallbackApiKey) {
+      try {
+        const fallbackBody = await reqClone.json();
+        const fallbackMessages = validateMessages(fallbackBody.messages);
+        const fallbackMode = fallbackBody.mode === 'socratic' ? 'socratic' : 'direct';
+        const fallbackPrompt = fallbackMode === 'socratic' ? SOCRATIC_SYSTEM_PROMPT : SYSTEM_PROMPT;
+
+        if (fallbackProvider === "openai-compatible" && !validateBaseURL(fallbackBaseURL || "")) {
+          throw new Error("Fallback baseURL not allowed");
+        }
+
+        console.error("Trying fallback AI provider...");
+        return await callAIService(
+          fallbackProvider,
+          fallbackModel,
+          fallbackApiKey,
+          fallbackBaseURL || "https://api.deepseek.com/v1",
+          fallbackMessages,
+          fallbackPrompt,
+        );
+      } catch (fallbackError) {
+        console.error("Fallback AI provider also failed:", fallbackError);
+      }
+    }
+
+    if (primaryError instanceof Error && primaryError.name === "AbortError") {
       return new Response(
-        JSON.stringify({ error: "AI_API_KEY 未配置" }),
-        { status: 500, headers: { "Content-Type": "application/json" } },
+        JSON.stringify({ error: "AI 服务响应超时，请稍后重试" }),
+        { status: 504, headers: { "Content-Type": "application/json" } },
       );
     }
-
-    // 验证 baseURL（防 SSRF）
-    if (provider === "openai-compatible" && !validateBaseURL(baseURL)) {
-      return new Response(
-        JSON.stringify({ error: "AI_BASE_URL 不在允许列表中" }),
-        { status: 400, headers: { "Content-Type": "application/json" } },
-      );
-    }
-
-    const body = await req.json();
-    const messages = validateMessages(body.messages);
-    const mode = body.mode === 'socratic' ? 'socratic' : 'direct';
-    const activePrompt = mode === 'socratic' ? SOCRATIC_SYSTEM_PROMPT : SYSTEM_PROMPT;
-
-    if (provider === "openai-compatible" || provider === "openai") {
-      const openaiBaseURL =
-        provider === "openai"
-          ? "https://api.openai.com/v1"
-          : baseURL;
-      return handleOpenAICompatible(apiKey, openaiBaseURL, model, messages, activePrompt);
-    }
-
-    // Anthropic
-    const { streamText, createTextStreamResponse } = await import("ai");
-    const { createAnthropic } = await import("@ai-sdk/anthropic");
-    const anthropic = createAnthropic({ apiKey });
-    const languageModel = anthropic(model);
-
-    const result = streamText({
-      model: languageModel,
-      system: activePrompt,
-      messages: messages.map((m) => ({
-        role: m.role as "user" | "assistant",
-        content: m.content,
-      })),
-      maxOutputTokens: 4096,
-    });
-
-    return createTextStreamResponse({
-      textStream: result.textStream,
-      headers: { "Cache-Control": "no-cache" },
-    });
-  } catch (error) {
-    console.error("Agent API error:", error);
     return new Response(
       JSON.stringify({ error: "请求处理失败" }),
       { status: 500, headers: { "Content-Type": "application/json" } },

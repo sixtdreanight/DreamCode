@@ -9,11 +9,14 @@ export interface SavedProject {
   lessonId?: string;
 }
 
+import { getRepository } from './repository';
+
 const STORAGE_KEY = 'vibe-coding-projects';
 
 export function loadProjects(): SavedProject[] {
+  const repo = getRepository();
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
+    const raw = repo.getItem(STORAGE_KEY);
     if (!raw) return [];
     return JSON.parse(raw) as SavedProject[];
   } catch {
@@ -22,7 +25,8 @@ export function loadProjects(): SavedProject[] {
 }
 
 function saveProjects(projects: SavedProject[]) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(projects));
+  const repo = getRepository();
+  repo.setItem(STORAGE_KEY, JSON.stringify(projects));
 }
 
 export function saveProject(project: Omit<SavedProject, 'id' | 'createdAt' | 'updatedAt'>): SavedProject {

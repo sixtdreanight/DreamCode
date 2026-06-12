@@ -106,7 +106,17 @@ AI_API_KEY=你的OpenAI_API_Key
 
 > **小提示**：`AI_API_KEY` 是通用配置；如果用 Anthropic 也可以用 `ANTHROPIC_API_KEY`，用 OpenAI 也可以用 `OPENAI_API_KEY`。
 
-### 4. 启动
+### 4. 配置 API 认证密钥
+
+从 0.2.0 版本开始，API 需要认证。在 `.env` 文件中添加：
+
+```env
+AI_API_AUTH_TOKEN=你的随机密钥
+```
+
+可以用任意随机字符串，例如 `my-secret-token-123`。
+
+### 5. 启动
 
 ```bash
 npm run dev
@@ -114,9 +124,32 @@ npm run dev
 
 打开浏览器访问 http://localhost:3000
 
+### 6. 备用 AI（可选）
+
+如果主 AI 服务商宕机，可以配置备用服务商自动切换：
+
+```env
+AI_FALLBACK_PROVIDER=openai
+AI_FALLBACK_MODEL=gpt-4o-mini
+AI_FALLBACK_API_KEY=sk-...
+AI_FALLBACK_BASE_URL=https://api.openai.com/v1
+```
+
 ---
 
-## 四、常见问题
+## 四、Docker 部署
+
+如果你熟悉 Docker，可以用一行命令启动：
+
+```bash
+docker compose up -d
+```
+
+访问 http://localhost:3000 。环境变量通过 `.env` 文件配置。
+
+---
+
+## 五、常见问题
 
 ### Q: 启动后页面显示空白或报错
 
@@ -153,7 +186,7 @@ A: VS Code 是目前最流行的代码编辑器，免费且好用。
 
 ---
 
-## 五、部署到线上
+## 六、部署到线上
 
 想让别人也能访问你的网站？最简单的方式是用 Vercel 部署。
 
@@ -184,7 +217,7 @@ git push -u origin main
 
 ---
 
-## 六、项目结构说明
+## 七、项目结构说明
 
 ```
 vibe-coding-agent/
@@ -210,6 +243,6 @@ vibe-coding-agent/
 
 ---
 
-## 七、遇到其他问题？
+## 八、遇到其他问题？
 
 可以在这个项目里使用 AI 助教提问，或者查看项目内的课程内容。

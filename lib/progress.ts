@@ -1,5 +1,6 @@
 import type { GamificationState } from './gamification';
 import { emptyGamification } from './gamification';
+import { getRepository } from './repository';
 
 const STORAGE_KEY = 'vibe-coding-progress';
 const CURRENT_SCHEMA = 2;
@@ -42,13 +43,14 @@ function migrateProgress(data: Record<string, unknown>): UserProgress {
 }
 
 export function loadProgress(): UserProgress {
+  const repo = getRepository();
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
+    const raw = repo.getItem(STORAGE_KEY);
     if (!raw) return emptyProgress();
     const data = JSON.parse(raw);
     if (!data.schemaVersion || data.schemaVersion < CURRENT_SCHEMA) {
       const migrated = migrateProgress(data);
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(migrated));
+      repo.setItem(STORAGE_KEY, JSON.stringify(migrated));
       return migrated;
     }
     return data as UserProgress;
@@ -58,9 +60,10 @@ export function loadProgress(): UserProgress {
 }
 
 export function saveProgress(p: UserProgress) {
+  const repo = getRepository();
   p.lastUpdatedAt = new Date().toISOString();
   p.schemaVersion = CURRENT_SCHEMA;
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(p));
+  repo.setItem(STORAGE_KEY, JSON.stringify(p));
   notifyListeners();
 }
 

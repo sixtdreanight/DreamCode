@@ -4,18 +4,23 @@
 
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![Next.js](https://img.shields.io/badge/Next.js-16-black)](https://nextjs.org/)
-[![AI SDK](https://img.shields.io/badge/AI%20SDK-multi--model-purple)](https://sdk.vercel.ai/)
+[![CI](https://github.com/sixtdreanight/vibe-coding-agent/actions/workflows/ci.yml/badge.svg)](https://github.com/sixtdreanight/vibe-coding-agent/actions/workflows/ci.yml)
 
-ゼロから学べる AI アシストプログラミング（Vibe Coding）のインタラクティブな学習サイトです。12 のレッスンで段階的に学習でき、AI チューターが組み込まれており、Prompt Playground で直接実行可能なコードを生成できます。
+ゼロから学べる AI アシストプログラミング（Vibe Coding）のインタラクティブな学習サイトです。7 章 22 レッスンで段階的に学習でき、AI チューター、ゲーミフィケーションシステム、コードを直接生成できる Prompt Playground を備えています。
 
 ---
 
 ## 機能
 
-- **体系的なカリキュラム** — 12 のレッスンで概念理解から実践まで
-- **AI 学習アシスタント** — 組み込みの AI チューターにいつでも質問可能
-- **Prompt Playground** — 説明を入力するだけで実行可能なコードを生成
+- **22 の体系的なレッスン** — 概念から公開までの 7 章構成
+- **AI 学習アシスタント** — ソクラテス式誘導モード + 直接回答モード、ストリーミング応答
+- **Prompt Playground** — 説明を入力するだけで実行可能な HTML/CSS/JS を生成
+- **ゲーミフィケーション** — XP、レベル、連続学習日数、10 種類の達成バッジ
+- **コード演習** — ヒントと自動チェック付きのインタラクティブ演習
+- **学習ダッシュボード** — 進捗追跡、ヒートマップ、スキルレーダー
+- **PWA 対応** — インストール可能、オフライン動作対応
 - **マルチモデル対応** — Claude、OpenAI、DeepSeek 及び任意の OpenAI 互換インターフェース
+- **AI フォールバック** — メインプロバイダー障害時に自動でバックアップに切替
 
 ## クイックスタート
 
@@ -36,66 +41,112 @@ npm run dev
 
 http://localhost:3000 にアクセスして学習を開始してください。
 
-> 初心者向けの詳細なセットアップガイド：[SETUP_GUIDE.md](./SETUP_GUIDE.md)
+> 初心者向け詳細セットアップガイド：[SETUP_GUIDE.md](./SETUP_GUIDE.md)
 
-## マルチモデルの設定
+### Docker
 
-3 つの AI プロバイダーを `.env` で設定できます：
+```bash
+docker compose up -d
+```
 
-### DeepSeek（推奨、国内から直接アクセス可能）
+## 設定
+
+### 必須
 
 ```env
+# API 認証キー（ランダムな文字列を生成）
+AI_API_AUTH_TOKEN=あなたの秘密キー
+
+# メイン AI プロバイダー
 AI_PROVIDER=openai-compatible
 AI_MODEL=deepseek-chat
 AI_API_KEY=sk-...
 AI_BASE_URL=https://api.deepseek.com/v1
 ```
 
-### Anthropic Claude
+### オプション：バックアップ AI プロバイダー
+
+メインプロバイダー障害時に自動切替：
 
 ```env
-AI_PROVIDER=anthropic
-AI_MODEL=claude-sonnet-4-20250514
-ANTHROPIC_API_KEY=sk-ant-...
+AI_FALLBACK_PROVIDER=openai
+AI_FALLBACK_MODEL=gpt-4o-mini
+AI_FALLBACK_API_KEY=sk-...
+AI_FALLBACK_BASE_URL=https://api.openai.com/v1
 ```
 
-### OpenAI または互換インターフェース
+全設定は `.env.example` を参照してください。
 
-```env
-AI_PROVIDER=openai
-AI_MODEL=gpt-4o
-OPENAI_API_KEY=sk-...
+## 開発
+
+```bash
+npm install
+npm run dev      # 開発サーバー起動
+npm test         # テスト実行（46 テスト、4 スイート）
+npm run build    # プロダクションビルド
 ```
 
 ## 技術スタック
 
-- [Next.js](https://nextjs.org/) 16 + React 19 + TypeScript
+- [Next.js](https://nextjs.org/) 16 + React 19 + TypeScript（strict モード）
 - [Tailwind CSS](https://tailwindcss.com/) v4
 - [AI SDK](https://sdk.vercel.ai/) — 統一マルチモデルインターフェース
+- [Vitest](https://vitest.dev/) — ユニットテスト（目標 80%+ カバレッジ）
 - [Lucide React](https://lucide.dev/) — アイコン
-- [react-markdown](https://github.com/remarkjs/react-markdown) — レッスンコンテンツのレンダリング
+- [react-markdown](https://github.com/remarkjs/react-markdown) — コンテンツレンダリング
 
 ## プロジェクト構造
 
 ```
 app/
-  api/agent/route.ts      # AI 会話ストリーミング API
-  lesson/[id]/page.tsx    # レッスン詳細ページ
-  page.tsx                # トップページ
-  layout.tsx              # ルートレイアウト
+  api/agent/route.ts        # AI 会話ストリーミング API（認証 + レート制限 + フォールバック）
+  api/review/route.ts       # AI コードレビュー API
+  api/storage/route.ts      # サーバーサイド key-value ストレージ
+  api/analytics/route.ts    # 分析イベントエンドポイント
+  lesson/[id]/page.tsx      # レッスン詳細ページ
+  dashboard/page.tsx        # 学習ダッシュボード
+  page.tsx                  # トップページ
 components/
-  ChatInterface.tsx       # AI チャットコンポーネント
-  PromptPlayground.tsx    # コード生成練習エリア
-  LessonNavigator.tsx     # レッスンナビゲーションサイドバー
+  ChatInterface.tsx         # AI チャットコンポーネント
+  PromptPlayground.tsx      # コード生成サンドボックス
+  exercise/                 # インタラクティブコード演習
+  dashboard/                # 統計、ヒートマップ、スキルレーダー
+  gamification/             # XP バー、バッジ解除、紙吹雪エフェクト
+  visualizations/           # アニメーションフローチャート、DOM ツリー
 lib/
-  lessons.ts              # レッスンデータ
+  lessons.ts                # 22 レッスン定義
+  progress.ts               # 学習進捗（Repository パターン）
+  gamification.ts           # XP、レベル、連続学習
+  achievements.ts           # 10 種類の達成バッジ
+  adaptive.ts               # 学習レコメンデーションエンジン
+  repository.ts             # ストレージ抽象化（localStorage / サーバー）
+  logger.ts                 # 構造化ログ
+  analytics.ts              # ユーザー行動トラッキング
 scripts/
-  setup.sh                # 自動セットアップスクリプト
+  setup.sh                  # 自動セットアップスクリプト
+  generate-icons.mjs        # PWA アイコンジェネレーター
 ```
 
 ## カスタムレッスン
 
-`lib/lessons.ts` を編集すると、レッスンコンテンツの修正や追加が可能です。Markdown 形式に対応しています。
+`lib/lessons.ts` を編集するとレッスン内容の修正や追加が可能です。Markdown 形式に対応しています。
+
+## デプロイ
+
+### Vercel（最も簡単）
+
+1. GitHub にプッシュ
+2. [vercel.com](https://vercel.com/) でリポジトリをインポート
+3. プロジェクト設定で環境変数を追加
+4. デプロイ
+
+### Docker
+
+```bash
+docker compose up -d
+```
+
+マルチステージビルドにより、イメージは約 150MB です。
 
 ## 関連プロジェクト
 

@@ -32,8 +32,22 @@ export function middleware(request: NextRequest) {
   if (["POST", "PUT", "DELETE"].includes(request.method)) {
     const origin = request.headers.get("origin");
     const host = request.headers.get("host");
-    if (origin && host && !origin.endsWith(host)) {
-      return NextResponse.json({ error: "Invalid origin" }, { status: 403 });
+    if (origin && host) {
+      try {
+        const originHost = new URL(origin).hostname;
+        const requestHost = host.split(":")[0];
+        if (originHost !== requestHost) {
+          return NextResponse.json(
+            { error: "Invalid origin" },
+            { status: 403 },
+          );
+        }
+      } catch {
+        return NextResponse.json(
+          { error: "Invalid origin" },
+          { status: 403 },
+        );
+      }
     }
   }
 
