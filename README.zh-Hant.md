@@ -150,7 +150,7 @@ docker compose up -d
 
 ## 相關專案
 
-- [myBlog](https://github.com/sixtdreanight/myBlog) — 作者個人部落格，更多 Vibe Coding 相關文章
+- [Blog-mizuki](https://github.com/sixtdreanight/Blog-mizuki) — 作者個人部落格，更多 Vibe Coding 相關文章
 
 ## License
 
